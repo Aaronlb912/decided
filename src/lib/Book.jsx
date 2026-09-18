@@ -1,4 +1,12 @@
-export function Book({ meetings, activeId, onSelect, bookMenu, children }) {
+export function Book({
+  meetings,
+  activeId,
+  onSelect,
+  bookMenu,
+  onCover,
+  deskName,
+  children,
+}) {
   const list = Array.isArray(meetings) && meetings.length ? meetings : []
   return (
     <div className="dd-app">
@@ -18,7 +26,15 @@ export function Book({ meetings, activeId, onSelect, bookMenu, children }) {
             </li>
           ))}
         </ol>
-        {bookMenu}
+        <div className="dd-spine-foot">
+          {deskName ? <p className="dd-desk">{deskName}</p> : null}
+          {onCover ? (
+            <button type="button" className="dd-cover-btn" onClick={onCover}>
+              Cover
+            </button>
+          ) : null}
+          {bookMenu}
+        </div>
       </nav>
       <div className="dd-stage">
         <div className="dd-pad">

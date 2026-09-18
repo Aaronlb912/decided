@@ -87,6 +87,44 @@
   outline-offset: 2px;
 }
 
+.dd-spine-foot {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.dd-desk {
+  margin: 0;
+  font-family: var(--dd-write);
+  font-size: 13px;
+  color: var(--dd-gold);
+}
+
+.dd-cover-btn {
+  font-family: var(--dd-stamp-face);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dd-gold);
+  background: transparent;
+  border: 0;
+  padding: 2px 0;
+  cursor: pointer;
+}
+
+.dd-cover-btn:hover,
+.dd-cover-btn:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.dd-cover-btn:focus-visible {
+  outline: 2px solid var(--dd-gold);
+  outline-offset: 2px;
+}
+
 .dd-book-menu {
   font-family: var(--dd-stamp-face);
   font-size: 12px;
@@ -777,6 +815,14 @@
   .dd-spine-meetings button {
     padding: 4px 0;
     border-bottom: 0;
+  }
+
+  .dd-spine-foot {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    margin-top: 0;
+    margin-left: auto;
   }
 
   .dd-stage {

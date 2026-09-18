@@ -6,7 +6,7 @@ JSON in, JSON out. Drop `src/lib/` into a React app you already
 have.
 
 Prompt file (do not wait for a paste):
-`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\draft-30-prompt.md`
+`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\decided-site-prompt.md`
 
 Continue later:
 `C:\Users\aaron\OneDrive\Documents\prompts\multi-session-build-prompt-react.md`
@@ -18,13 +18,11 @@ Local URL: http://127.0.0.1:48531/
 Repo folder: `C:\Users\aaron\Documents\decided`
 
 Pages:
-- Decision list: still-open first, decided next. Add by hand.
-  Paste a dump. Search. Filter. Load JSON. Start blank. Reset
-  sample. Rename the log. Print.
-- Decision page: what we decided, when, who, still open, owner,
-  notes, thread. Save. Escape cancels.
+- Cover, open the book, how this pad works, drop-in, pad.
+- Pad: still-open left, decided right. Write on the line.
+  Paste. Spine meetings. Print. JSON.
 
-Auth: none.
+Auth: none. Open the book is a local desk name only.
 
 Sample: Oak & Vine Florist in `src/lib/sample-decisions.js`. Fake
 names. Email on `.example`.
@@ -45,19 +43,19 @@ names. Email on `.example`.
 - [x] Rebuild R-C through R-J. Write on the line, call page,
       book spine, find/owners, paste, follow-up, drag,
       keyboard, empty/print/390.
+- [x] Site S-A through S-F. Cover, open the book, how,
+      drop-in, pad glue.
 - [ ] Session ship: screenshots, demo video, README Demo, LinkedIn
       draft, SHIPPED.
 
 ## This session
 
-D-A: the book sits on the desk, not a full-bleed sheet.
-Do not ship.
+S-A through S-F. Cover, open, how, drop-in, Cover on the
+spine. Do not ship.
 
 ## Next session
 
-D-C follow-up in
-`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\draft-30-prompt.md`.
-Do not ship.
+Ship later, only when he asks. Do not mark SHIPPED.
 
 ## Usefulness check
 

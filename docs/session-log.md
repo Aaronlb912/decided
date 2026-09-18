@@ -73,3 +73,13 @@ What landed: Meeting book sits on the olive desk. Pad keeps
 unused ruled lines instead of filling the window. 390 keeps a
 strip of desk. Rebuild features stay.
 Next session: D-C follow-up. Do not ship.
+
+## 2026-09-18 - Site S-A through S-F
+
+What runs: http://127.0.0.1:48531/
+What landed: Cover at `#/`. Open the book at `#/open` (desk
+name, continue / sample / blank / load JSON). How this pad
+works. Drop-in. Pad at `#/pad` with Cover and desk name on
+the spine. No book sends you to open. Host `Log` still has no
+router.
+Next session: Ship later, when he asks. Do not mark SHIPPED.

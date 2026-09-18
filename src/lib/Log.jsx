@@ -66,7 +66,7 @@ function ownersFrom(decisions) {
   return seen
 }
 
-export function Log({ value, onChange, onResetSample }) {
+export function Log({ value, onChange, onResetSample, onCover, deskName }) {
   const passedBook = looksLikeBook(value)
   const book = normalizeBook(value)
   const [activeId, setActiveId] = useState(book.logs[0]?.id || '')
@@ -430,6 +430,8 @@ export function Log({ value, onChange, onResetSample }) {
           setActiveId(id)
         }}
         bookMenu={bookMenu}
+        onCover={onCover}
+        deskName={deskName}
       >
         <DecisionPage
           decision={open.decision}
@@ -446,7 +448,14 @@ export function Log({ value, onChange, onResetSample }) {
   }
 
   return (
-    <Book meetings={book.logs} activeId={log.id} onSelect={setActiveId} bookMenu={bookMenu}>
+    <Book
+      meetings={book.logs}
+      activeId={log.id}
+      onSelect={setActiveId}
+      bookMenu={bookMenu}
+      onCover={onCover}
+      deskName={deskName}
+    >
       <header className="dd-heading">
         {renaming ? (
           <h1>

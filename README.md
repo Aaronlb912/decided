@@ -18,6 +18,13 @@ npm start
 
 Open http://127.0.0.1:48531/
 
-The sample is Oak & Vine Florist and Saturday counter.
-Close an open call from the left page. New writes on the next
-line. Download JSON from Book on the spine.
+The demo starts on a cover. Open the book with a name at the
+desk, then the Oak & Vine sample or a blank pad. How this pad
+works and drop-in notes are linked from the cover.
+
+## Copy `src/lib/`
+
+Copy that folder into a React app you already have. Import
+`Log` and pass `value` / `onChange`. A whole book is
+`{ title, logs }`. One meeting is still `{ title, decisions }`.
+The cover pages are demo-only. They are not in `src/lib/`.
