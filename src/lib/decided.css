@@ -201,7 +201,7 @@
 }
 
 .dd-paste textarea,
-.dd-form input,
+.dd-form input:not([type='checkbox']),
 .dd-form textarea {
   font: inherit;
   font-family: var(--dd-ui);
@@ -267,8 +267,11 @@
   color: var(--dd-ink);
 }
 
-.dd-check input {
-  width: auto;
+.dd-check input[type='checkbox'] {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  accent-color: var(--dd-open);
 }
 
 .dd-form-actions {
