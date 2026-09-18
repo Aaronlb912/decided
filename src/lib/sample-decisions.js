@@ -1,0 +1,53 @@
+export const sampleLog = {
+  id: 'log-oak-vine',
+  title: 'Oak & Vine Florist',
+  note: 'What we called this month. Names are fake.',
+  decisions: [
+    {
+      id: 'd-hours',
+      what: 'Saturday hours stay 9 to 4.',
+      when: '2026-09-08',
+      who: 'Lena Ortiz',
+      stillOpen: false,
+      owner: '',
+      notes: 'Walk-ins after 4 wait until Monday. Tess Quinn already told the counter.',
+    },
+    {
+      id: 'd-roses',
+      what: 'Hartwell Farms is the rose wholesaler through October.',
+      when: '2026-09-10',
+      who: 'Lena Ortiz, Sam Reed',
+      stillOpen: false,
+      owner: '',
+      notes: 'Sam has the standing order. Mail him at sam@oakandvine.example if a stem mix changes.',
+    },
+    {
+      id: 'd-window',
+      what: 'Window display changes every Tuesday morning.',
+      when: '2026-09-12',
+      who: 'Priya Shah',
+      stillOpen: false,
+      owner: '',
+      notes: 'Priya picks the stem mix. Do not leave last week\'s cards in the glass.',
+    },
+    {
+      id: 'd-cutoff',
+      what: 'No same-day bouquet after 2pm.',
+      when: '2026-09-14',
+      who: 'Tess Quinn',
+      stillOpen: false,
+      owner: '',
+      notes: 'Counter can take the order for the next morning. Tell walk-ins before they pick a vase.',
+    },
+    {
+      id: 'd-hospital',
+      what: 'Weekly contract with Riverside Hospital.',
+      when: '2026-09-15',
+      who: 'Sam Reed',
+      stillOpen: true,
+      owner: 'Sam Reed',
+      notes:
+        'Still open: Tuesday morning van hours. Mail from admissions@riverside-hospital.example. Do we have a driver, or do we pass?',
+    },
+  ],
+}

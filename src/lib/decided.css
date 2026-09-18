@@ -1,0 +1,300 @@
+.dd {
+  --dd-ink: #2a241c;
+  --dd-ink-soft: #6a5e50;
+  --dd-paper: #f7f1e6;
+  --dd-page: #d4c4b0;
+  --dd-line: #c4b49a;
+  --dd-head: #3d4a32;
+  --dd-open: #6b3a32;
+  --dd-miss: #7a2e1b;
+  --dd-radius: 2px;
+  --dd-ui: system-ui, sans-serif;
+  min-height: 100vh;
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 28px 22px 72px;
+  color: var(--dd-ink);
+}
+
+.dd-top {
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--dd-ink);
+}
+
+.dd-kicker {
+  margin: 0 0 8px;
+  font-family: var(--dd-ui);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dd-ink-soft);
+}
+
+.dd h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+.dd-note,
+.dd-hint {
+  margin: 8px 0 0;
+  font-family: var(--dd-ui);
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--dd-ink-soft);
+}
+
+.dd-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.dd button {
+  font-family: var(--dd-ui);
+  font-size: 13px;
+  line-height: 1.2;
+  border: 1px solid var(--dd-ink);
+  background: var(--dd-ink);
+  color: var(--dd-paper);
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: var(--dd-radius);
+}
+
+.dd button:hover,
+.dd button:focus-visible {
+  background: var(--dd-head);
+  border-color: var(--dd-head);
+}
+
+.dd button.dd-secondary {
+  background: var(--dd-paper);
+  color: var(--dd-ink);
+}
+
+.dd button.dd-secondary:hover,
+.dd button.dd-secondary:focus-visible {
+  background: #efe6d4;
+  color: var(--dd-ink);
+  border-color: var(--dd-ink);
+}
+
+.dd button.dd-quiet {
+  background: transparent;
+  color: var(--dd-ink-soft);
+  border: 0;
+  border-bottom: 1px dotted currentColor;
+  padding: 1px 0;
+  font-size: 12px;
+  border-radius: 0;
+  min-height: 0;
+}
+
+.dd button.dd-quiet:hover,
+.dd button.dd-quiet:focus-visible {
+  background: transparent;
+  color: var(--dd-ink);
+  border-color: currentColor;
+}
+
+.dd-miss {
+  margin: 0 0 16px;
+  font-family: var(--dd-ui);
+  font-size: 14px;
+  color: var(--dd-miss);
+}
+
+.dd-undo {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  font-family: var(--dd-ui);
+  font-size: 14px;
+  color: var(--dd-ink-soft);
+  background: #efe6d4;
+  border: 1px solid var(--dd-line);
+}
+
+.dd-section {
+  margin: 0 0 28px;
+}
+
+.dd-section h2 {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-family: var(--dd-ui);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dd-ink-soft);
+}
+
+.dd-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.dd-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--dd-paper);
+  border: 1px solid var(--dd-line);
+}
+
+.dd-card-open {
+  border-left: 4px solid var(--dd-open);
+}
+
+.dd-card h3 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.dd-meta {
+  margin: 0;
+  font-family: var(--dd-ui);
+  font-size: 13px;
+  color: var(--dd-ink-soft);
+  line-height: 1.4;
+}
+
+.dd-owner {
+  color: var(--dd-open);
+}
+
+.dd-row-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.dd-empty {
+  margin: 0;
+  padding: 18px 14px;
+  font-family: var(--dd-ui);
+  font-size: 14px;
+  color: var(--dd-ink-soft);
+  background: var(--dd-paper);
+  border: 1px dashed var(--dd-line);
+}
+
+.dd-paste {
+  margin: 8px 0 0;
+  padding: 14px;
+  background: var(--dd-paper);
+  border: 1px solid var(--dd-line);
+}
+
+.dd-paste textarea,
+.dd-form input,
+.dd-form textarea {
+  font: inherit;
+  font-family: var(--dd-ui);
+  font-size: 15px;
+  width: 100%;
+  border: 1px solid var(--dd-line);
+  background: #fffdf8;
+  color: inherit;
+  padding: 8px 10px;
+  border-radius: var(--dd-radius);
+}
+
+.dd-paste textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.dd-candidates {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.dd-candidates li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-family: var(--dd-ui);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.dd-candidates input {
+  margin-top: 3px;
+}
+
+.dd-form {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.dd-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-family: var(--dd-ui);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--dd-ink-soft);
+}
+
+.dd-check {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 14px;
+  color: var(--dd-ink);
+}
+
+.dd-check input {
+  width: auto;
+}
+
+.dd-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.dd-form textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+@media (max-width: 520px) {
+  .dd {
+    padding: 20px 14px 56px;
+  }
+
+  .dd-card {
+    flex-direction: column;
+  }
+
+  .dd-row-actions {
+    flex-direction: row;
+    align-items: center;
+  }
+}
