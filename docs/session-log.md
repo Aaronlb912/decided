@@ -64,4 +64,12 @@ highlights and can jump to another meeting. Paste insert has
 From + date and `Name:` owners. Overdue follow-up reads late.
 Drag still-open. j/k, n, /, c, Enter, Escape. Print pad and
 print open. Old one-log JSON still loads as one meeting.
-Next session: Ship later, when he asks. Do not mark SHIPPED.
+Next session: leftover draft-30 letters. Do not ship.
+
+## 2026-09-18 - D-A desk
+
+What runs: http://127.0.0.1:48531/
+What landed: Meeting book sits on the olive desk. Pad keeps
+unused ruled lines instead of filling the window. 390 keeps a
+strip of desk. Rebuild features stay.
+Next session: D-C follow-up. Do not ship.

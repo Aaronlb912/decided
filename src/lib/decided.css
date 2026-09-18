@@ -16,7 +16,8 @@
   --dd-stamp-face: 'Trebuchet MS', 'Gill Sans', 'Century Gothic', sans-serif;
   display: flex;
   align-items: stretch;
-  min-height: 100vh;
+  width: min(62rem, calc(100% - 36px));
+  margin: 28px auto 52px;
   color: var(--dd-ink);
   font-family: var(--dd-write);
 }
@@ -154,7 +155,7 @@
 .dd-pad {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: 38rem;
   padding: 0 1.25rem 2.4rem 0;
   background-color: var(--dd-paper);
   background-image: repeating-linear-gradient(
@@ -754,6 +755,8 @@
   .dd-app {
     --dd-gutter: 4.6rem;
     flex-direction: column;
+    width: auto;
+    margin: 10px 8px 28px;
   }
 
   .dd-spine {
@@ -782,8 +785,10 @@
 
   .dd-pad {
     width: 100%;
-    min-height: calc(100vh - 52px);
-    box-shadow: none;
+    min-height: 28rem;
+    box-shadow:
+      0 0 0 1px #d8c48a,
+      8px 10px 0 rgba(26, 22, 18, 0.14);
   }
 
   .dd-spread {

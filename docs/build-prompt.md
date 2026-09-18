@@ -6,7 +6,7 @@ JSON in, JSON out. Drop `src/lib/` into a React app you already
 have.
 
 Prompt file (do not wait for a paste):
-`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\decided-rebuild-prompt.md`
+`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\draft-30-prompt.md`
 
 Continue later:
 `C:\Users\aaron\OneDrive\Documents\prompts\multi-session-build-prompt-react.md`
@@ -50,13 +50,14 @@ names. Email on `.example`.
 
 ## This session
 
-R-C through R-J. Meeting book with two pads, write on the
-line, owners, paste insert, drag, keyboard, print open.
+D-A: the book sits on the desk, not a full-bleed sheet.
 Do not ship.
 
 ## Next session
 
-Ship later, only when he asks. Do not mark SHIPPED.
+D-C follow-up in
+`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\draft-30-prompt.md`.
+Do not ship.
 
 ## Usefulness check
 
