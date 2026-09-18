@@ -105,13 +105,15 @@
 .dd-cover-btn {
   font-family: var(--dd-stamp-face);
   font-size: 12px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--dd-gold);
   background: transparent;
   border: 0;
   padding: 2px 0;
   cursor: pointer;
+  text-align: left;
+  line-height: 1.25;
 }
 
 .dd-cover-btn:hover,
@@ -242,6 +244,15 @@
 }
 
 .dd-heading-date {
+  margin: 0;
+  min-height: var(--dd-line);
+  font-family: var(--dd-stamp-face);
+  font-size: 13px;
+  line-height: var(--dd-line);
+  color: var(--dd-ink-soft);
+}
+
+.dd-spread-hint {
   margin: 0;
   min-height: var(--dd-line);
   font-family: var(--dd-stamp-face);

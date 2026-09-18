@@ -10,8 +10,8 @@ export function Book({
   const list = Array.isArray(meetings) && meetings.length ? meetings : []
   return (
     <div className="dd-app">
-      <nav className="dd-spine" aria-label="Meeting book">
-        <p className="dd-spine-mark">Meeting book</p>
+      <nav className="dd-spine" aria-label="Meetings in this notebook">
+        <p className="dd-spine-mark">Meetings</p>
         <ol className="dd-spine-meetings">
           {list.map((meeting) => (
             <li key={meeting.id}>
@@ -30,7 +30,7 @@ export function Book({
           {deskName ? <p className="dd-desk">{deskName}</p> : null}
           {onCover ? (
             <button type="button" className="dd-cover-btn" onClick={onCover}>
-              Cover
+              Close the book
             </button>
           ) : null}
           {bookMenu}

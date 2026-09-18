@@ -15,7 +15,7 @@ export function PasteBox({ onKeep, onCancel }) {
     if (!next.length) {
       setLines([])
       setPicked({})
-      setMiss('Paste first.')
+      setMiss('Paste some text first.')
       return
     }
     const map = {}
@@ -30,12 +30,12 @@ export function PasteBox({ onKeep, onCancel }) {
   function keep(event) {
     event.preventDefault()
     if (!lines || !lines.length) {
-      setMiss('Split into lines first.')
+      setMiss('Split into lines first, then pick the ones to keep.')
       return
     }
     const kept = lines.filter((_, index) => picked[index])
     if (!kept.length) {
-      setMiss('Tick a line to keep.')
+      setMiss('Tick a line you want to keep.')
       return
     }
     onKeep(kept, { thread: thread.trim(), when })
@@ -44,7 +44,7 @@ export function PasteBox({ onKeep, onCancel }) {
   return (
     <section className="dd-paste-wrap dd-noprint">
       <div className="dd-paste-head">
-        <h2>Paste insert</h2>
+        <h2>Paste an email or notes</h2>
         {onCancel ? (
           <button type="button" className="dd-quiet" onClick={onCancel}>
             Cancel
@@ -59,7 +59,7 @@ export function PasteBox({ onKeep, onCancel }) {
           autoFocus
         />
         <label className="dd-field">
-          From
+          Huddle
           <input
             value={thread}
             onChange={(event) => setThread(event.target.value)}
@@ -77,7 +77,7 @@ export function PasteBox({ onKeep, onCancel }) {
         ) : null}
         {lines ? (
           lines.length === 0 ? (
-            <p className="dd-quiet-line">Nothing to keep.</p>
+            <p className="dd-quiet-line">Nothing to keep from that paste.</p>
           ) : (
             <ul className="dd-candidates">
               {lines.map((line, index) => (
@@ -98,7 +98,7 @@ export function PasteBox({ onKeep, onCancel }) {
             Split into lines
           </button>
           {lines && lines.length > 0 ? (
-            <button type="submit">Keep ticked</button>
+            <button type="submit">Keep these lines</button>
           ) : null}
         </div>
       </form>

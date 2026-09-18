@@ -161,7 +161,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
 
   function fileDraft() {
     if (!draftWhat.trim()) {
-      setDraftMiss('Need the call.')
+      setDraftMiss('Write the leftover job first.')
       return
     }
     const next = normalizeDecision({
@@ -290,7 +290,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
   }
 
   function startBlank() {
-    if (!window.confirm('Clear this book?')) return
+    if (!window.confirm('Clear this notebook and start blank?')) return
     const next = blankBook()
     setUndo(null)
     setQuery('')
@@ -329,10 +329,10 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
         setActiveId(next.logs[0].id)
         emitBook(next)
       } catch {
-        setLoadMiss('That file is not a meeting book we can load.')
+        setLoadMiss('That file is not a notebook we can open. Use a file you saved from here.')
       }
     }
-    reader.onerror = () => setLoadMiss('Could not read that file.')
+    reader.onerror = () => setLoadMiss('Could not read that file. Try again.')
     reader.readAsText(file)
   }
 
@@ -387,26 +387,26 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
   const missFind = Boolean(needle || ownerFilter) && matched.length === 0
   const bookMenu = (
     <details className="dd-book-menu dd-noprint">
-      <summary>Book</summary>
+      <summary>Files</summary>
       <div className="dd-book-menu-panel">
         <button type="button" onClick={() => window.print()}>
-          Print pad
+          Print these pages
         </button>
         <button type="button" onClick={printOpen}>
-          Print open
+          Print still open
         </button>
         <button type="button" onClick={() => downloadBook(book)}>
-          Download JSON
+          Save notebook file
         </button>
         <button type="button" onClick={() => fileRef.current && fileRef.current.click()}>
-          Load JSON
+          Load a saved file
         </button>
         <button type="button" onClick={startBlank}>
-          Start blank
+          Start a blank notebook
         </button>
         {onResetSample ? (
           <button type="button" onClick={onResetSample}>
-            Reset sample
+            Replace with florist sample
           </button>
         ) : null}
       </div>
@@ -529,6 +529,9 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
             </button>
           </p>
         )}
+        <p className="dd-spread-hint dd-noprint">
+          Still open on the left. Decided on the right.
+        </p>
       </header>
 
       <div className="dd-tray dd-noprint">
@@ -538,7 +541,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
             className={pageTab === 'open' ? 'is-on' : ''}
             onClick={() => setPageTab('open')}
           >
-            Open
+            Still open
           </button>
           <button
             type="button"
@@ -554,7 +557,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
             ref={searchRef}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            aria-label="Find a call"
+            aria-label="Find a leftover job or a decision"
           />
         </label>
         {owners.length ? (
@@ -597,7 +600,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
 
       {undo ? (
         <p className="dd-banner dd-undo dd-noprint">
-          Removed.
+          Removed that line.
           <button type="button" className="dd-quiet" onClick={undoRemove}>
             Undo
           </button>
@@ -606,7 +609,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
 
       {elsewhere.length ? (
         <p className="dd-banner dd-jumps dd-noprint">
-          Also in
+          Also in another meeting:
           {elsewhere.map((meeting) => (
             <button
               key={meeting.id}
@@ -627,7 +630,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
 
       {missFind ? (
         <p className="dd-empty-line">
-          Nothing matches.
+          Nothing matches that search.
           <button
             type="button"
             className="dd-quiet"
@@ -647,7 +650,9 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
           >
             <h2 id="dd-open-h">Still open</h2>
             {stillOpen.length === 0 && !drafting ? (
-              <p className="dd-quiet-line">Nothing open.</p>
+              <p className="dd-quiet-line">
+                Type a name and the leftover job on the next line.
+              </p>
             ) : (
               <ul className="dd-lines">
                 {stillOpen.map((item) => (
@@ -718,8 +723,8 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
                         setDraftWhat(event.target.value)
                         setDraftMiss('')
                       }}
-                      placeholder="The call"
-                      aria-label="The call"
+                      placeholder="Leftover job"
+                      aria-label="Leftover job"
                       onKeyDown={(event) => {
                         if (event.key === 'Enter') {
                           event.preventDefault()
@@ -743,7 +748,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
           >
             <h2 id="dd-log-h">Decided</h2>
             {decided.length === 0 ? (
-              <p className="dd-quiet-line">Nothing filed yet.</p>
+              <p className="dd-quiet-line">Nothing decided yet.</p>
             ) : (
               <ul className="dd-lines">
                 {decided.map((item) => (

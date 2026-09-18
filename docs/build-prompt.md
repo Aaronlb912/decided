@@ -6,7 +6,7 @@ JSON in, JSON out. Drop `src/lib/` into a React app you already
 have.
 
 Prompt file (do not wait for a paste):
-`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\decided-site-prompt.md`
+`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\decided-copy-prompt.md`
 
 Continue later:
 `C:\Users\aaron\OneDrive\Documents\prompts\multi-session-build-prompt-react.md`
@@ -45,13 +45,15 @@ names. Email on `.example`.
       keyboard, empty/print/390.
 - [x] Site S-A through S-F. Cover, open the book, how,
       drop-in, pad glue.
+- [x] Copy C-A through C-E. Cover, open, how, drop-in,
+      pad labels. Same look. Plain words.
 - [ ] Session ship: screenshots, demo video, README Demo, LinkedIn
       draft, SHIPPED.
 
 ## This session
 
-S-A through S-F. Cover, open, how, drop-in, Cover on the
-spine. Do not ship.
+C-A through C-E. Plain words on cover, open, how, drop-in, and
+pad labels. Do not ship.
 
 ## Next session
 

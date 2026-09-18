@@ -86,12 +86,12 @@ export default function App() {
       openPad(next)
       return true
     } catch {
-      return 'That file is not a meeting book we can load.'
+      return 'That file is not a notebook we can open. Use a file you saved from here.'
     }
   }
 
   function resetSample() {
-    if (!window.confirm('Replace stored meetings with the sample book?')) {
+    if (!window.confirm('Replace this notebook with the Oak & Vine florist sample?')) {
       return
     }
     changeBook(sampleBook)

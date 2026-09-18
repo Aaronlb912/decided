@@ -83,3 +83,12 @@ works. Drop-in. Pad at `#/pad` with Cover and desk name on
 the spine. No book sends you to open. Host `Log` still has no
 router.
 Next session: Ship later, when he asks. Do not mark SHIPPED.
+
+## 2026-09-18 - Copy C-A through C-E
+
+What runs: http://127.0.0.1:48531/
+What landed: Cover says it is a meeting notebook (still open
+left, decided right). Open explains the name and each start
+choice. How is an Oak & Vine walkthrough. Drop-in says skip
+it unless you already run React. Pad labels match How.
+Next session: Ship later, when he asks. Do not mark SHIPPED.

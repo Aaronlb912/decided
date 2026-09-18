@@ -16,9 +16,9 @@ export function go(page) {
 }
 
 export function pageTitle(page, bookTitle) {
-  if (page === 'open') return 'Open the book · Decided'
-  if (page === 'how') return 'How this pad works · Decided'
-  if (page === 'drop-in') return 'Drop into a React app · Decided'
+  if (page === 'open') return 'Open a notebook · Decided'
+  if (page === 'how') return 'How to use it · Decided'
+  if (page === 'drop-in') return 'Copy into a React app · Decided'
   if (page === 'pad') return bookTitle ? `${bookTitle} · Decided` : 'Decided'
   return 'Decided'
 }

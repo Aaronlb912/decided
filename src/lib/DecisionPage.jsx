@@ -31,7 +31,7 @@ export function DecisionPage({
   function save(event) {
     event.preventDefault()
     if (!what.trim()) {
-      setMiss('Need the call.')
+      setMiss('Write the leftover job or the decision first.')
       return
     }
     setMiss('')
@@ -53,11 +53,15 @@ export function DecisionPage({
   return (
     <div className="dd-call">
       <button type="button" className="dd-quiet dd-back dd-noprint" onClick={onCancel}>
-        Pad
+        Back to the pages
       </button>
       <header className="dd-heading">
-        <h1>{isNew ? 'New call' : what.trim() || 'Call'}</h1>
+        <h1>{isNew ? 'New line' : what.trim() || 'This line'}</h1>
         <p className="dd-heading-date">{formatHeadingDate(when) || 'No date'}</p>
+        <p className="dd-spread-hint dd-noprint">
+          This line is the leftover job or the decision. Who was
+          in the room. Owner still has this.
+        </p>
       </header>
 
       {miss ? (
@@ -68,7 +72,7 @@ export function DecisionPage({
 
       <form onSubmit={save}>
         <label className={`dd-field${miss ? ' dd-field-miss' : ''}`}>
-          Call
+          Line
           <textarea
             rows={3}
             value={what}
@@ -77,7 +81,7 @@ export function DecisionPage({
           />
         </label>
         <label className="dd-field">
-          When
+          Date
           <input
             type="date"
             value={when}
@@ -115,7 +119,7 @@ export function DecisionPage({
           </label>
         ) : null}
         <label className="dd-field">
-          From
+          Huddle
           <input value={thread} onChange={(event) => setThread(event.target.value)} />
         </label>
         <label className="dd-field">
