@@ -59,11 +59,58 @@ export function blankLog() {
   }
 }
 
-function todayStamp() {
-  const now = new Date()
+export function todayStamp(now = new Date()) {
   const month = String(now.getMonth() + 1).padStart(2, '0')
   const day = String(now.getDate()).padStart(2, '0')
   return `${now.getFullYear()}-${month}-${day}`
+}
+
+export function isOverdue(followUp, now = new Date()) {
+  const raw = String(followUp || '').trim()
+  if (!raw) return false
+  return raw < todayStamp(now)
+}
+
+export function blankBook() {
+  return {
+    title: 'Decided',
+    logs: [blankLog()],
+  }
+}
+
+export function normalizeBook(raw) {
+  if (Array.isArray(raw)) {
+    return { title: 'Decided', logs: [normalizeLog(raw)] }
+  }
+  if (!raw || typeof raw !== 'object') {
+    return blankBook()
+  }
+  if (Array.isArray(raw.logs)) {
+    const logs = raw.logs
+      .filter((item) => item && typeof item === 'object' && !Array.isArray(item))
+      .map((item) => normalizeLog(item))
+    return {
+      title: asText(raw.title).trim() || 'Decided',
+      logs: logs.length ? logs : [blankLog()],
+    }
+  }
+  return {
+    title: 'Decided',
+    logs: [normalizeLog(raw)],
+  }
+}
+
+export function looksLikeBook(raw) {
+  return Boolean(raw && typeof raw === 'object' && !Array.isArray(raw) && Array.isArray(raw.logs))
+}
+
+export function downloadBook(book, filename) {
+  downloadLog(normalizeBook(book), filename)
+}
+
+export function parseIncoming(text) {
+  const parsed = JSON.parse(String(text || ''))
+  return normalizeBook(parsed)
 }
 
 export function formatWhen(value) {
@@ -183,6 +230,18 @@ export function looksStillOpen(text) {
   return /^(still|open|need|who|when)\b/i.test(line)
 }
 
+export function parsePastedLine(line) {
+  const raw = String(line || '').trim()
+  if (!raw) return { kind: 'empty' }
+  const ownerOnly = raw.match(/^owner:\s*(.+)$/i)
+  if (ownerOnly) return { kind: 'owner', owner: ownerOnly[1].trim() }
+  const named = raw.match(/^([A-Za-z][A-Za-z .'-]{0,36}):\s+(.+)$/)
+  if (named) {
+    return { kind: 'call', owner: named[1].trim(), what: named[2].trim() }
+  }
+  return { kind: 'call', owner: '', what: raw }
+}
+
 export function parseLogJson(text) {
   const parsed = JSON.parse(String(text || ''))
   return normalizeLog(parsed)
@@ -190,15 +249,27 @@ export function parseLogJson(text) {
 
 export function decisionsFromLines(lines, extras) {
   const thread = asText(extras?.thread)
-  return lines
-    .map((line) => String(line || '').trim())
-    .filter(Boolean)
-    .map((what) =>
+  const when = asText(extras?.when) || todayStamp()
+  let stickyOwner = ''
+  const out = []
+  lines.forEach((line) => {
+    const parsed = parsePastedLine(line)
+    if (parsed.kind === 'owner') {
+      stickyOwner = parsed.owner
+      return
+    }
+    if (parsed.kind !== 'call' || !parsed.what) return
+    const owner = parsed.owner || stickyOwner
+    out.push(
       normalizeDecision({
         ...blankDecision(),
-        what,
-        stillOpen: looksStillOpen(what),
+        what: parsed.what,
+        owner,
+        stillOpen: Boolean(owner) || looksStillOpen(parsed.what),
         thread,
+        when,
       }),
     )
+  })
+  return out
 }

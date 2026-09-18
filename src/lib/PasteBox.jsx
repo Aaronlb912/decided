@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { splitPaste } from './decided-json.js'
+import { splitPaste, todayStamp } from './decided-json.js'
 
 export function PasteBox({ onKeep, onCancel }) {
   const [text, setText] = useState('')
   const [thread, setThread] = useState('')
+  const [when, setWhen] = useState(todayStamp())
   const [lines, setLines] = useState(null)
   const [picked, setPicked] = useState({})
   const [miss, setMiss] = useState('')
@@ -37,7 +38,7 @@ export function PasteBox({ onKeep, onCancel }) {
       setMiss('Tick a line to keep.')
       return
     }
-    onKeep(kept, thread.trim())
+    onKeep(kept, { thread: thread.trim(), when })
   }
 
   return (
@@ -54,7 +55,7 @@ export function PasteBox({ onKeep, onCancel }) {
         <textarea
           value={text}
           onChange={(event) => setText(event.target.value)}
-          placeholder="Email or notes. Blank lines make separate calls."
+          placeholder="Sam: Need a backup driver. Owner: Priya Shah"
           autoFocus
         />
         <label className="dd-field">
@@ -64,6 +65,10 @@ export function PasteBox({ onKeep, onCancel }) {
             onChange={(event) => setThread(event.target.value)}
             placeholder="Floor huddle, 16 Sep"
           />
+        </label>
+        <label className="dd-field">
+          Date
+          <input type="date" value={when} onChange={(event) => setWhen(event.target.value)} />
         </label>
         {miss ? (
           <p className="dd-miss" role="alert">

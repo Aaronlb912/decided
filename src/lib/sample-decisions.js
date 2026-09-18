@@ -51,6 +51,7 @@ export const sampleLog = {
       who: 'Sam Reed',
       stillOpen: true,
       owner: 'Sam Reed',
+      followUp: '2026-09-17',
       thread: 'Mail, Riverside admissions',
       notes:
         'Still open: Tuesday morning van hours. Mail from admissions@riverside-hospital.example. Do we have a driver, or do we pass?',
@@ -62,8 +63,45 @@ export const sampleLog = {
       who: 'Lena Ortiz',
       stillOpen: true,
       owner: 'Lena Ortiz',
+      followUp: '2026-09-20',
       thread: 'Floor huddle, 16 Sep',
       notes: 'Need a backup before we sign the contract. Priya said she can learn the route.',
     },
   ],
+}
+
+export const sampleCounter = {
+  id: 'log-saturday-counter',
+  title: 'Saturday counter',
+  note: 'Who is on the floor this weekend.',
+  meetingOn: '2026-09-13',
+  decisions: [
+    {
+      id: 'd-tess-shift',
+      what: 'Tess covers 9 to 1.',
+      when: '2026-09-13',
+      who: 'Lena Ortiz',
+      stillOpen: false,
+      owner: '',
+      closedOn: '2026-09-13',
+      thread: 'Counter note, 13 Sep',
+      notes: 'Priya has the afternoon. Cooler restock is still open.',
+    },
+    {
+      id: 'd-cooler',
+      what: 'Who restocks the cooler if Tess is alone?',
+      when: '2026-09-13',
+      who: 'Priya Shah',
+      stillOpen: true,
+      owner: 'Priya Shah',
+      followUp: '2026-09-20',
+      thread: 'Counter note, 13 Sep',
+      notes: 'Need a name on the board before Saturday.',
+    },
+  ],
+}
+
+export const sampleBook = {
+  title: 'Decided',
+  logs: [sampleLog, sampleCounter],
 }

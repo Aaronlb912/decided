@@ -3,26 +3,85 @@ import { Book } from './Book.jsx'
 import { DecisionPage } from './DecisionPage.jsx'
 import { PasteBox } from './PasteBox.jsx'
 import {
+  blankBook,
   blankDecision,
-  blankLog,
   decisionsFromLines,
-  downloadLog,
+  downloadBook,
   formatHeadingDate,
   formatWhen,
+  isOverdue,
+  looksLikeBook,
   newDecisionId,
+  normalizeBook,
   normalizeDecision,
-  normalizeLog,
-  parseLogJson,
+  parseIncoming,
+  todayStamp,
 } from './decided-json.js'
 import './decided.css'
 
+function Highlight({ text, needle }) {
+  const value = String(text || '')
+  const q = String(needle || '').trim()
+  if (!q) return value
+  const lower = value.toLowerCase()
+  const find = q.toLowerCase()
+  const parts = []
+  let from = 0
+  let key = 0
+  while (from < value.length) {
+    const at = lower.indexOf(find, from)
+    if (at < 0) {
+      parts.push(value.slice(from))
+      break
+    }
+    if (at > from) parts.push(value.slice(from, at))
+    parts.push(<mark key={key}>{value.slice(at, at + q.length)}</mark>)
+    key += 1
+    from = at + q.length
+  }
+  return parts
+}
+
+function itemMatches(item, needle, ownerFilter) {
+  if (ownerFilter) {
+    const name = ownerFilter.toLowerCase()
+    const hay = `${item.owner} ${item.who}`.toLowerCase()
+    if (!hay.includes(name)) return false
+  }
+  if (!needle) return true
+  return [item.what, item.who, item.owner, item.notes, item.thread]
+    .join('\n')
+    .toLowerCase()
+    .includes(needle)
+}
+
+function ownersFrom(decisions) {
+  const seen = []
+  decisions.forEach((item) => {
+    const name = String(item.owner || '').trim()
+    if (!name) return
+    if (seen.some((entry) => entry.toLowerCase() === name.toLowerCase())) return
+    seen.push(name)
+  })
+  return seen
+}
+
 export function Log({ value, onChange, onResetSample }) {
-  const log = normalizeLog(value)
+  const passedBook = looksLikeBook(value)
+  const book = normalizeBook(value)
+  const [activeId, setActiveId] = useState(book.logs[0]?.id || '')
+  const log = book.logs.find((item) => item.id === activeId) || book.logs[0]
   const [open, setOpen] = useState(null)
   const [undo, setUndo] = useState(null)
   const [query, setQuery] = useState('')
+  const [ownerFilter, setOwnerFilter] = useState('')
   const [pasting, setPasting] = useState(false)
+  const [drafting, setDrafting] = useState(false)
+  const [draftOwner, setDraftOwner] = useState('')
+  const [draftWhat, setDraftWhat] = useState('')
+  const [draftMiss, setDraftMiss] = useState('')
   const [pageTab, setPageTab] = useState('open')
+  const [selectedId, setSelectedId] = useState('')
   const [renaming, setRenaming] = useState(false)
   const [dating, setDating] = useState(false)
   const [titleDraft, setTitleDraft] = useState(log.title)
@@ -31,7 +90,15 @@ export function Log({ value, onChange, onResetSample }) {
   const undoTimer = useRef(null)
   const fileRef = useRef(null)
   const searchRef = useRef(null)
+  const draftWhatRef = useRef(null)
+  const dragId = useRef('')
   const skipTitleBlur = useRef(false)
+
+  useEffect(() => {
+    if (!book.logs.some((item) => item.id === activeId)) {
+      setActiveId(book.logs[0].id)
+    }
+  }, [book, activeId])
 
   useEffect(() => {
     if (!renaming) setTitleDraft(log.title)
@@ -41,40 +108,78 @@ export function Log({ value, onChange, onResetSample }) {
     if (!dating) setDateDraft(log.meetingOn)
   }, [log.meetingOn, dating])
 
-  useEffect(() => {
-    function onKey(event) {
-      if (event.target.closest('input, textarea, select')) return
-      if (event.key === 'n') {
-        event.preventDefault()
-        addNew()
-      }
-      if (event.key === '/') {
-        event.preventDefault()
-        searchRef.current?.focus()
-      }
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [])
+  function emitBook(nextBook) {
+    const normalized = normalizeBook(nextBook)
+    if (passedBook || normalized.logs.length > 1) onChange(normalized)
+    else onChange(normalized.logs[0])
+  }
 
-  function changeLog(next) {
-    onChange(normalizeLog(next))
+  function changeLog(nextLog) {
+    emitBook({
+      ...book,
+      logs: book.logs.map((item) => (item.id === log.id ? nextLog : item)),
+    })
   }
 
   function changeDecisions(decisions) {
     changeLog({ ...log, decisions })
   }
 
-  function addNew() {
+  const needle = query.trim().toLowerCase()
+  const matched = log.decisions.filter((item) => itemMatches(item, needle, ownerFilter))
+  const stillOpen = matched.filter((item) => item.stillOpen)
+  const decided = matched.filter((item) => !item.stillOpen)
+  const visible = pageTab === 'open' ? stillOpen : decided
+  const owners = ownersFrom(log.decisions)
+  const elsewhere = needle
+    ? book.logs.filter(
+        (meeting) =>
+          meeting.id !== log.id &&
+          meeting.decisions.some((item) => itemMatches(item, needle, '')),
+      )
+    : []
+
+  function startDraft() {
     setUndo(null)
     setLoadMiss('')
     setPasting(false)
-    setOpen({ mode: 'new', decision: { ...blankDecision(), stillOpen: true } })
+    setOpen(null)
+    setPageTab('open')
+    setDrafting(true)
+    setDraftOwner('')
+    setDraftWhat('')
+    setDraftMiss('')
+    setTimeout(() => draftWhatRef.current?.focus(), 0)
+  }
+
+  function cancelDraft() {
+    setDrafting(false)
+    setDraftOwner('')
+    setDraftWhat('')
+    setDraftMiss('')
+  }
+
+  function fileDraft() {
+    if (!draftWhat.trim()) {
+      setDraftMiss('Need the call.')
+      return
+    }
+    const next = normalizeDecision({
+      ...blankDecision(),
+      what: draftWhat,
+      owner: draftOwner,
+      stillOpen: true,
+      when: log.meetingOn || todayStamp(),
+    })
+    changeDecisions([...log.decisions, next])
+    cancelDraft()
+    setSelectedId(next.id)
   }
 
   function openOne(decision) {
     setLoadMiss('')
     setPasting(false)
+    cancelDraft()
     setOpen({ mode: 'edit', decision })
   }
 
@@ -93,29 +198,32 @@ export function Log({ value, onChange, onResetSample }) {
     const index = log.decisions.findIndex((item) => item.id === id)
     if (index < 0) return
     const decision = log.decisions[index]
-    const decisions = log.decisions.filter((item) => item.id !== id)
-    changeDecisions(decisions)
+    changeDecisions(log.decisions.filter((item) => item.id !== id))
     setOpen(null)
     if (undoTimer.current) clearTimeout(undoTimer.current)
-    setUndo({ decision, index })
+    setUndo({ decision, index, logId: log.id })
     undoTimer.current = setTimeout(() => setUndo(null), 12000)
   }
 
   function undoRemove() {
     if (!undo) return
-    const decisions = [...log.decisions]
+    const target = book.logs.find((item) => item.id === undo.logId) || log
+    const decisions = [...target.decisions]
     decisions.splice(Math.min(undo.index, decisions.length), 0, undo.decision)
-    changeDecisions(decisions)
+    emitBook({
+      ...book,
+      logs: book.logs.map((item) =>
+        item.id === target.id ? { ...item, decisions } : item,
+      ),
+    })
     if (undoTimer.current) clearTimeout(undoTimer.current)
     setUndo(null)
   }
 
   function closeDecision(id) {
-    const today = new Date()
-    const closedOn = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
     changeDecisions(
       log.decisions.map((item) =>
-        item.id === id ? { ...item, stillOpen: false, closedOn } : item,
+        item.id === id ? { ...item, stillOpen: false, closedOn: todayStamp() } : item,
       ),
     )
   }
@@ -134,13 +242,29 @@ export function Log({ value, onChange, onResetSample }) {
       id: newDecisionId(),
       what: item.what ? `${item.what} (copy)` : 'Copy',
     })
-    setOpen({ mode: 'new', decision: copy })
+    changeDecisions([...log.decisions, copy])
+    setOpen({ mode: 'edit', decision: copy })
   }
 
-  function keepLines(lines, thread) {
-    const added = decisionsFromLines(lines, { thread })
+  function keepLines(lines, extras) {
+    const added = decisionsFromLines(lines, extras)
     changeDecisions([...log.decisions, ...added])
     setPasting(false)
+  }
+
+  function moveOpen(fromId, toId) {
+    if (!fromId || !toId || fromId === toId) return
+    const opens = log.decisions.filter((item) => item.stillOpen)
+    const from = opens.findIndex((item) => item.id === fromId)
+    const to = opens.findIndex((item) => item.id === toId)
+    if (from < 0 || to < 0) return
+    const nextOpen = [...opens]
+    const [item] = nextOpen.splice(from, 1)
+    nextOpen.splice(to, 0, item)
+    let index = 0
+    changeDecisions(
+      log.decisions.map((entry) => (entry.stillOpen ? nextOpen[index++] : entry)),
+    )
   }
 
   function commitTitle() {
@@ -166,14 +290,24 @@ export function Log({ value, onChange, onResetSample }) {
   }
 
   function startBlank() {
-    if (!window.confirm('Clear this pad?')) return
+    if (!window.confirm('Clear this book?')) return
+    const next = blankBook()
     setUndo(null)
     setQuery('')
+    setOwnerFilter('')
     setLoadMiss('')
     setRenaming(false)
     setPasting(false)
     setOpen(null)
-    changeLog(blankLog())
+    cancelDraft()
+    setActiveId(next.logs[0].id)
+    emitBook(next)
+  }
+
+  function printOpen() {
+    document.body.classList.add('dd-print-open')
+    window.print()
+    window.setTimeout(() => document.body.classList.remove('dd-print-open'), 400)
   }
 
   function onPickFile(event) {
@@ -183,42 +317,74 @@ export function Log({ value, onChange, onResetSample }) {
     const reader = new FileReader()
     reader.onload = () => {
       try {
-        const next = parseLogJson(String(reader.result || ''))
+        const next = parseIncoming(String(reader.result || ''))
         setUndo(null)
         setQuery('')
+        setOwnerFilter('')
         setLoadMiss('')
         setRenaming(false)
         setPasting(false)
         setOpen(null)
-        changeLog(next)
+        cancelDraft()
+        setActiveId(next.logs[0].id)
+        emitBook(next)
       } catch {
-        setLoadMiss('That file is not a meeting we can load.')
+        setLoadMiss('That file is not a meeting book we can load.')
       }
     }
     reader.onerror = () => setLoadMiss('Could not read that file.')
     reader.readAsText(file)
   }
 
-  const needle = query.trim().toLowerCase()
-  function matches(item) {
-    if (!needle) return true
-    return [item.what, item.who, item.owner, item.notes, item.thread]
-      .join('\n')
-      .toLowerCase()
-      .includes(needle)
+  function moveSel(step) {
+    if (!visible.length) return
+    const index = visible.findIndex((item) => item.id === selectedId)
+    const next = visible[(index < 0 ? 0 : index + step + visible.length) % visible.length]
+    setSelectedId(next.id)
   }
 
-  const matched = log.decisions.filter(matches)
-  const stillOpen = matched.filter((item) => item.stillOpen)
-  const decided = matched
-    .filter((item) => !item.stillOpen)
-    .slice()
-    .sort((left, right) =>
-      String(right.closedOn || right.when).localeCompare(String(left.closedOn || left.when)),
-    )
-  const logEmpty = log.decisions.length === 0
-  const missFind = !logEmpty && matched.length === 0
+  useEffect(() => {
+    function onKey(event) {
+      if (event.key === 'Escape') {
+        if (drafting) {
+          event.preventDefault()
+          cancelDraft()
+        }
+        return
+      }
+      if (event.target.closest('input, textarea, select')) return
+      if (open) return
+      if (event.key === 'n') {
+        event.preventDefault()
+        startDraft()
+      }
+      if (event.key === '/') {
+        event.preventDefault()
+        searchRef.current?.focus()
+      }
+      if (event.key === 'j') {
+        event.preventDefault()
+        moveSel(1)
+      }
+      if (event.key === 'k') {
+        event.preventDefault()
+        moveSel(-1)
+      }
+      if (event.key === 'c' && pageTab === 'open' && selectedId) {
+        event.preventDefault()
+        closeDecision(selectedId)
+      }
+      if (event.key === 'Enter' && selectedId) {
+        event.preventDefault()
+        const hit = log.decisions.find((item) => item.id === selectedId)
+        if (hit) openOne(hit)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  })
 
+  const missFind = Boolean(needle || ownerFilter) && matched.length === 0
   const bookMenu = (
     <details className="dd-book-menu dd-noprint">
       <summary>Book</summary>
@@ -226,7 +392,10 @@ export function Log({ value, onChange, onResetSample }) {
         <button type="button" onClick={() => window.print()}>
           Print pad
         </button>
-        <button type="button" onClick={() => downloadLog(log)}>
+        <button type="button" onClick={printOpen}>
+          Print open
+        </button>
+        <button type="button" onClick={() => downloadBook(book)}>
           Download JSON
         </button>
         <button type="button" onClick={() => fileRef.current && fileRef.current.click()}>
@@ -253,21 +422,31 @@ export function Log({ value, onChange, onResetSample }) {
 
   if (open) {
     return (
-      <Book title={log.title} bookMenu={bookMenu}>
+      <Book
+        meetings={book.logs}
+        activeId={log.id}
+        onSelect={(id) => {
+          setOpen(null)
+          setActiveId(id)
+        }}
+        bookMenu={bookMenu}
+      >
         <DecisionPage
           decision={open.decision}
           mode={open.mode}
           onSave={saveDecision}
           onCancel={() => setOpen(null)}
           onRemove={removeDecision}
-          onDuplicate={open.mode === 'edit' ? () => duplicateDecision(open.decision) : undefined}
+          onDuplicate={
+            open.mode === 'edit' ? () => duplicateDecision(open.decision) : undefined
+          }
         />
       </Book>
     )
   }
 
   return (
-    <Book title={log.title} bookMenu={bookMenu}>
+    <Book meetings={book.logs} activeId={log.id} onSelect={setActiveId} bookMenu={bookMenu}>
       <header className="dd-heading">
         {renaming ? (
           <h1>
@@ -369,7 +548,21 @@ export function Log({ value, onChange, onResetSample }) {
             aria-label="Find a call"
           />
         </label>
-        <button type="button" className="dd-new" onClick={addNew}>
+        {owners.length ? (
+          <div className="dd-owners">
+            {owners.map((name) => (
+              <button
+                key={name}
+                type="button"
+                className={ownerFilter === name ? 'is-on' : ''}
+                onClick={() => setOwnerFilter(ownerFilter === name ? '' : name)}
+              >
+                {name}
+              </button>
+            ))}
+          </div>
+        ) : null}
+        <button type="button" className="dd-new" onClick={startDraft}>
           New
         </button>
         <button
@@ -387,6 +580,12 @@ export function Log({ value, onChange, onResetSample }) {
         </p>
       ) : null}
 
+      {draftMiss ? (
+        <p className="dd-banner dd-miss dd-noprint" role="alert">
+          {draftMiss}
+        </p>
+      ) : null}
+
       {undo ? (
         <p className="dd-banner dd-undo dd-noprint">
           Removed.
@@ -396,14 +595,38 @@ export function Log({ value, onChange, onResetSample }) {
         </p>
       ) : null}
 
+      {elsewhere.length ? (
+        <p className="dd-banner dd-jumps dd-noprint">
+          Also in
+          {elsewhere.map((meeting) => (
+            <button
+              key={meeting.id}
+              type="button"
+              className="dd-quiet"
+              onClick={() => {
+                setActiveId(meeting.id)
+                setOwnerFilter('')
+              }}
+            >
+              {meeting.title}
+            </button>
+          ))}
+        </p>
+      ) : null}
+
       {pasting ? <PasteBox onKeep={keepLines} onCancel={() => setPasting(false)} /> : null}
 
-      {logEmpty ? (
-        <p className="dd-empty-line">This pad is blank.</p>
-      ) : missFind ? (
+      {missFind ? (
         <p className="dd-empty-line">
           Nothing matches.
-          <button type="button" className="dd-quiet" onClick={() => setQuery('')}>
+          <button
+            type="button"
+            className="dd-quiet"
+            onClick={() => {
+              setQuery('')
+              setOwnerFilter('')
+            }}
+          >
             Clear find
           </button>
         </p>
@@ -414,16 +637,41 @@ export function Log({ value, onChange, onResetSample }) {
             aria-labelledby="dd-open-h"
           >
             <h2 id="dd-open-h">Still open</h2>
-            {stillOpen.length === 0 ? (
+            {stillOpen.length === 0 && !drafting ? (
               <p className="dd-quiet-line">Nothing open.</p>
             ) : (
               <ul className="dd-lines">
                 {stillOpen.map((item) => (
-                  <li key={item.id}>
-                    <button type="button" className="dd-line" onClick={() => openOne(item)}>
-                      <span className="dd-owner">{item.owner || item.who || '—'}</span>
-                      <span className="dd-what">{item.what}</span>
-                      <span className="dd-when">{formatWhen(item.followUp || item.when) || '—'}</span>
+                  <li
+                    key={item.id}
+                    draggable
+                    onDragStart={() => {
+                      dragId.current = item.id
+                    }}
+                    onDragOver={(event) => event.preventDefault()}
+                    onDrop={(event) => {
+                      event.preventDefault()
+                      moveOpen(dragId.current, item.id)
+                      dragId.current = ''
+                    }}
+                  >
+                    <button
+                      type="button"
+                      className={`dd-line${selectedId === item.id ? ' is-selected' : ''}${isOverdue(item.followUp) ? ' is-late' : ''}`}
+                      onClick={() => {
+                        setSelectedId(item.id)
+                        openOne(item)
+                      }}
+                    >
+                      <span className="dd-owner">
+                        <Highlight text={item.owner || item.who || '—'} needle={needle} />
+                      </span>
+                      <span className="dd-what">
+                        <Highlight text={item.what} needle={needle} />
+                      </span>
+                      <span className="dd-when">
+                        {formatWhen(item.followUp || item.when) || '—'}
+                      </span>
                     </button>
                     <button
                       type="button"
@@ -434,6 +682,48 @@ export function Log({ value, onChange, onResetSample }) {
                     </button>
                   </li>
                 ))}
+                {drafting ? (
+                  <li className="dd-draft">
+                    <input
+                      className="dd-draft-owner"
+                      value={draftOwner}
+                      onChange={(event) => setDraftOwner(event.target.value)}
+                      placeholder="Owner"
+                      aria-label="Owner"
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                          event.preventDefault()
+                          fileDraft()
+                        }
+                        if (event.key === 'Escape') {
+                          event.preventDefault()
+                          cancelDraft()
+                        }
+                      }}
+                    />
+                    <input
+                      ref={draftWhatRef}
+                      className="dd-draft-what"
+                      value={draftWhat}
+                      onChange={(event) => {
+                        setDraftWhat(event.target.value)
+                        setDraftMiss('')
+                      }}
+                      placeholder="The call"
+                      aria-label="The call"
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                          event.preventDefault()
+                          fileDraft()
+                        }
+                        if (event.key === 'Escape') {
+                          event.preventDefault()
+                          cancelDraft()
+                        }
+                      }}
+                    />
+                  </li>
+                ) : null}
               </ul>
             )}
           </section>
@@ -449,9 +739,20 @@ export function Log({ value, onChange, onResetSample }) {
               <ul className="dd-lines">
                 {decided.map((item) => (
                   <li key={item.id}>
-                    <button type="button" className="dd-line" onClick={() => openOne(item)}>
-                      <span className="dd-when">{formatWhen(item.closedOn || item.when) || '—'}</span>
-                      <span className="dd-what">{item.what}</span>
+                    <button
+                      type="button"
+                      className={`dd-line${selectedId === item.id ? ' is-selected' : ''}`}
+                      onClick={() => {
+                        setSelectedId(item.id)
+                        openOne(item)
+                      }}
+                    >
+                      <span className="dd-when">
+                        {formatWhen(item.closedOn || item.when) || '—'}
+                      </span>
+                      <span className="dd-what">
+                        <Highlight text={item.what} needle={needle} />
+                      </span>
                     </button>
                     <button
                       type="button"

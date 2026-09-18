@@ -52,4 +52,16 @@ lines. Tray: Open / Decided tabs, Find stamp, rust New, Paste.
 Spread is still-open left, decided right. 390 shows one page
 via the tabs. File ops are not in the first row. No More menu.
 Old JSON still loads.
-Next session: R-C. New open call on the next blank line.
+Next session: R-C through R-J in the same chat. Do not ship.
+
+## 2026-09-18 - R-C through R-J
+
+What runs: http://127.0.0.1:48531/
+What landed: Two meetings on the spine (Oak & Vine, Saturday
+counter). New writes owner + call on the next line; Enter
+files it. Call page still on the pad. Owner clips. Find
+highlights and can jump to another meeting. Paste insert has
+From + date and `Name:` owners. Overdue follow-up reads late.
+Drag still-open. j/k, n, /, c, Enter, Escape. Print pad and
+print open. Old one-log JSON still loads as one meeting.
+Next session: Ship later, when he asks. Do not mark SHIPPED.

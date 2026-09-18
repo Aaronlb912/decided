@@ -18,5 +18,6 @@ npm start
 
 Open http://127.0.0.1:48531/
 
-The sample is Oak & Vine Florist. Close an open call from the
-left page. Download JSON from Book on the spine.
+The sample is Oak & Vine Florist and Saturday counter.
+Close an open call from the left page. New writes on the next
+line. Download JSON from Book on the spine.

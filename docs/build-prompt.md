@@ -42,25 +42,21 @@ names. Email on `.example`.
 - [x] D-B. Reopen.
 - [x] Rebuild R-A. Kill the old chrome.
 - [x] Rebuild R-B. Spread + tray.
-- [ ] Rebuild R-C through R-J in `decided-rebuild-prompt.md`
-      before SHIPPED. Keep the notebook. Remake the app.
-      Draft-30 D-C through D-L are skipped (folded into the
-      rebuild).
+- [x] Rebuild R-C through R-J. Write on the line, call page,
+      book spine, find/owners, paste, follow-up, drag,
+      keyboard, empty/print/390.
 - [ ] Session ship: screenshots, demo video, README Demo, LinkedIn
       draft, SHIPPED.
 
 ## This session
 
-R-A and R-B. Meeting-book spine, heading on the pad lines,
-tray (Open / Decided / Find / New / Paste). File ops in Book
-on the spine. Do not ship.
+R-C through R-J. Meeting book with two pads, write on the
+line, owners, paste insert, drag, keyboard, print open.
+Do not ship.
 
 ## Next session
 
-R-C. Write a new open call on the next blank line. Open this
-repo. Read
-`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\decided-rebuild-prompt.md`.
-Do not ship.
+Ship later, only when he asks. Do not mark SHIPPED.
 
 ## Usefulness check
 

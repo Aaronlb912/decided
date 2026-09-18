@@ -1,41 +1,44 @@
 import { useState } from 'react'
-import { Log, normalizeLog, sampleLog } from './lib/index.js'
+import { Log, normalizeBook, sampleBook } from './lib/index.js'
 
-const STORAGE_KEY = 'decided-log'
+const STORAGE_KEY = 'decided-book'
+const OLD_KEY = 'decided-log'
 
 function readStored() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw) return normalizeLog(JSON.parse(raw))
-    return normalizeLog(sampleLog)
+    if (raw) return normalizeBook(JSON.parse(raw))
+    const old = localStorage.getItem(OLD_KEY)
+    if (old) return normalizeBook(JSON.parse(old))
+    return normalizeBook(sampleBook)
   } catch {
-    return normalizeLog(sampleLog)
+    return normalizeBook(sampleBook)
   }
 }
 
-function writeStored(log) {
+function writeStored(book) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(log))
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(book))
   } catch {
     // Demo still runs if storage is blocked.
   }
 }
 
 export default function App() {
-  const [log, setLog] = useState(readStored)
+  const [book, setBook] = useState(readStored)
 
   function change(next) {
-    const normalized = normalizeLog(next)
-    setLog(normalized)
+    const normalized = normalizeBook(next)
+    setBook(normalized)
     writeStored(normalized)
   }
 
   function resetSample() {
-    if (!window.confirm('Replace stored decisions with the Oak & Vine sample?')) {
+    if (!window.confirm('Replace stored meetings with the sample book?')) {
       return
     }
-    change(normalizeLog(sampleLog))
+    change(normalizeBook(sampleBook))
   }
 
-  return <Log value={log} onChange={change} onResetSample={resetSample} />
+  return <Log value={book} onChange={change} onResetSample={resetSample} />
 }

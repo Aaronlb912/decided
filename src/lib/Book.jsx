@@ -1,14 +1,22 @@
-export function Book({ title, bookMenu, children }) {
+export function Book({ meetings, activeId, onSelect, bookMenu, children }) {
+  const list = Array.isArray(meetings) && meetings.length ? meetings : []
   return (
     <div className="dd-app">
       <nav className="dd-spine" aria-label="Meeting book">
         <p className="dd-spine-mark">Meeting book</p>
         <ol className="dd-spine-meetings">
-          <li>
-            <button type="button" className="is-on" aria-current="page">
-              {title}
-            </button>
-          </li>
+          {list.map((meeting) => (
+            <li key={meeting.id}>
+              <button
+                type="button"
+                className={meeting.id === activeId ? 'is-on' : ''}
+                aria-current={meeting.id === activeId ? 'page' : undefined}
+                onClick={() => onSelect && onSelect(meeting.id)}
+              >
+                {meeting.title}
+              </button>
+            </li>
+          ))}
         </ol>
         {bookMenu}
       </nav>
