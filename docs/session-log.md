@@ -109,3 +109,13 @@ the pad. How and drop-in settle as paper. New lines fade in
 on the rule. Close/Reopen slide. Spine turns the sheet.
 Paste lays on. Reduced motion cuts it. No motion library.
 Next session: Ship later, when he asks. Do not mark SHIPPED.
+
+## 2026-09-18 - SHIPPED
+
+What runs: http://127.0.0.1:48531/
+Hosted: https://aaronlb912.github.io/decided/
+What landed: README Demo with page, result, miss stills and
+the walkthrough mp4. GitHub Pages. LinkedIn draft stays local.
+**SHIPPED.**
+Next session: finished-product prompt if a stranger still
+cannot land. Do not mark a second SHIPPED unless he asks.

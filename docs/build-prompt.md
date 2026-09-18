@@ -6,10 +6,10 @@ JSON in, JSON out. Drop `src/lib/` into a React app you already
 have.
 
 Prompt file (do not wait for a paste):
-`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\decided-motion-prompt.md`
+`C:\Users\aaron\OneDrive\Documents\prompts\finished-product-prompt.md`
 
 Continue later:
-`C:\Users\aaron\OneDrive\Documents\prompts\multi-session-build-prompt-react.md`
+`C:\Users\aaron\OneDrive\Documents\prompts\finished-product-prompt.md`
 
 Kind: decision log. Not a list search. Not minutes. Not a table
 editor.
@@ -51,17 +51,18 @@ names. Email on `.example`.
       a person explaining it.
 - [x] Motion M-A through M-E. Notebook motion on cover and
       pad. Handmade CSS. No library.
-- [ ] Session ship: screenshots, demo video, README Demo, LinkedIn
+- [x] Session ship: screenshots, demo video, README Demo, LinkedIn
       draft, SHIPPED.
 
 ## This session
 
-M-A through M-E. Cover settle, open into the pad, line and stamp
-motion. Do not ship.
+Ship. Screenshots, demo video, README Demo, GitHub Pages,
+LinkedIn draft. Mark SHIPPED.
 
 ## Next session
 
-Ship later, only when he asks. Do not mark SHIPPED.
+Finished-product passes if a stranger still cannot land. Do not
+mark a second SHIPPED unless he asks.
 
 ## Usefulness check
 
@@ -75,8 +76,8 @@ Ship later, only when he asks. Do not mark SHIPPED.
 6. Coworker test? Yes. Zip `src/lib/`. They import it.
 7. Keep a copy? Yes. Download JSON.
 8. Miss and recover? Yes. Blank decision. Empty log. Bad file.
-9. README says how? Session 1: who, run, local URL. Full copy
-   `src/lib/` before SHIPPED.
+9. README says how? Yes. Copy `src/lib/`, import, props, three
+   tool screenshots, playable demo.
 
 ## Go deep (done-means)
 
