@@ -6,7 +6,7 @@ JSON in, JSON out. Drop `src/lib/` into a React app you already
 have.
 
 Prompt file (do not wait for a paste):
-`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\decided-copy-prompt.md`
+`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\decided-plain-prompt.md`
 
 Continue later:
 `C:\Users\aaron\OneDrive\Documents\prompts\multi-session-build-prompt-react.md`
@@ -47,13 +47,15 @@ names. Email on `.example`.
       drop-in, pad glue.
 - [x] Copy C-A through C-E. Cover, open, how, drop-in,
       pad labels. Same look. Plain words.
+- [x] Copy P-A through P-E. Same job, spoken sentences, like
+      a person explaining it.
 - [ ] Session ship: screenshots, demo video, README Demo, LinkedIn
       draft, SHIPPED.
 
 ## This session
 
-C-A through C-E. Plain words on cover, open, how, drop-in, and
-pad labels. Do not ship.
+P-A through P-E. Spoken sentences on cover, open, how, drop-in,
+and pad. Do not ship.
 
 ## Next session
 

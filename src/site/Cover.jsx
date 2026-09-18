@@ -5,15 +5,20 @@ export function Cover({ bookTitle, hasBook, hasDeskName, onOpen, onContinue }) {
       <div className="site-cover">
         <p className="site-mark">Meeting notebook</p>
         <h1>Decided</h1>
-        <p className="site-lede">This is a meeting notebook.</p>
         <p className="site-lede">
-          Still open on the left, with a name. Already decided on
-          the right.
+          Decided is a notebook for what happened in a meeting.
+          After the notes pile up, you write what is still hanging
+          on the left and what the group already agreed on the
+          right. There is no account.
         </p>
         {hasBook && bookTitle ? (
-          <p className="site-plate">{bookTitle} is in this browser.</p>
+          <p className="site-plate">
+            {bookTitle} is already open in this browser.
+          </p>
         ) : (
-          <p className="site-plate">No notebook in this browser yet.</p>
+          <p className="site-plate">
+            You do not have a notebook in this browser yet.
+          </p>
         )}
         <div className="site-actions">
           {ready ? (
@@ -33,7 +38,7 @@ export function Cover({ bookTitle, hasBook, hasDeskName, onOpen, onContinue }) {
         </div>
         <p className="site-links">
           <a href="#/how">How to use it</a>
-          <a href="#/drop-in">Copy into a React app you already run</a>
+          <a href="#/drop-in">Copy this into a React app you already have, if you need that</a>
         </p>
       </div>
     </div>

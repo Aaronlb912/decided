@@ -92,3 +92,11 @@ left, decided right). Open explains the name and each start
 choice. How is an Oak & Vine walkthrough. Drop-in says skip
 it unless you already run React. Pad labels match How.
 Next session: Ship later, when he asks. Do not mark SHIPPED.
+
+## 2026-09-18 - Copy P-A through P-E
+
+What runs: http://127.0.0.1:48531/
+What landed: Cover, open, how, drop-in, and pad sentences talk
+like a person explaining the notebook. How opening stayed.
+Gutter stamps stayed short.
+Next session: Ship later, when he asks. Do not mark SHIPPED.

@@ -86,12 +86,12 @@ export default function App() {
       openPad(next)
       return true
     } catch {
-      return 'That file is not a notebook we can open. Use a file you saved from here.'
+      return 'That file is not a notebook we can open. Try one you saved from this page.'
     }
   }
 
   function resetSample() {
-    if (!window.confirm('Replace this notebook with the Oak & Vine florist sample?')) {
+    if (!window.confirm('This will replace the notebook in this browser with the Oak & Vine florist sample. Is that what you want?')) {
       return
     }
     changeBook(sampleBook)

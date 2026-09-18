@@ -15,7 +15,7 @@ export function PasteBox({ onKeep, onCancel }) {
     if (!next.length) {
       setLines([])
       setPicked({})
-      setMiss('Paste some text first.')
+      setMiss('Paste some text first, then split it into lines.')
       return
     }
     const map = {}
@@ -35,7 +35,7 @@ export function PasteBox({ onKeep, onCancel }) {
     }
     const kept = lines.filter((_, index) => picked[index])
     if (!kept.length) {
-      setMiss('Tick a line you want to keep.')
+      setMiss('Tick at least one line you want to keep.')
       return
     }
     onKeep(kept, { thread: thread.trim(), when })
@@ -44,7 +44,7 @@ export function PasteBox({ onKeep, onCancel }) {
   return (
     <section className="dd-paste-wrap dd-noprint">
       <div className="dd-paste-head">
-        <h2>Paste an email or notes</h2>
+        <h2>Paste an email or some notes, then keep the lines you want</h2>
         {onCancel ? (
           <button type="button" className="dd-quiet" onClick={onCancel}>
             Cancel
@@ -77,7 +77,9 @@ export function PasteBox({ onKeep, onCancel }) {
         ) : null}
         {lines ? (
           lines.length === 0 ? (
-            <p className="dd-quiet-line">Nothing to keep from that paste.</p>
+            <p className="dd-quiet-line">
+              We could not turn that paste into lines to keep.
+            </p>
           ) : (
             <ul className="dd-candidates">
               {lines.map((line, index) => (

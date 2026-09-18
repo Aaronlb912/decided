@@ -31,7 +31,7 @@ export function DecisionPage({
   function save(event) {
     event.preventDefault()
     if (!what.trim()) {
-      setMiss('Write the leftover job or the decision first.')
+      setMiss('Write the leftover job or the decision before you save.')
       return
     }
     setMiss('')
@@ -59,8 +59,8 @@ export function DecisionPage({
         <h1>{isNew ? 'New line' : what.trim() || 'This line'}</h1>
         <p className="dd-heading-date">{formatHeadingDate(when) || 'No date'}</p>
         <p className="dd-spread-hint dd-noprint">
-          This line is the leftover job or the decision. Who was
-          in the room. Owner still has this.
+          This line is the leftover job or the decision. Who is
+          who was in the room. Owner is who still has this.
         </p>
       </header>
 

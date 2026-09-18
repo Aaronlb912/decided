@@ -161,7 +161,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
 
   function fileDraft() {
     if (!draftWhat.trim()) {
-      setDraftMiss('Write the leftover job first.')
+      setDraftMiss('Write what is still hanging first, then press Enter.')
       return
     }
     const next = normalizeDecision({
@@ -290,7 +290,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
   }
 
   function startBlank() {
-    if (!window.confirm('Clear this notebook and start blank?')) return
+    if (!window.confirm('This will clear the notebook in this browser and start empty. Is that what you want?')) return
     const next = blankBook()
     setUndo(null)
     setQuery('')
@@ -329,10 +329,13 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
         setActiveId(next.logs[0].id)
         emitBook(next)
       } catch {
-        setLoadMiss('That file is not a notebook we can open. Use a file you saved from here.')
+        setLoadMiss(
+          'That file is not a notebook we can open. Try one you saved from this page.',
+        )
       }
     }
-    reader.onerror = () => setLoadMiss('Could not read that file. Try again.')
+    reader.onerror = () =>
+      setLoadMiss('We could not read that file. You can try another one.')
     reader.readAsText(file)
   }
 
@@ -530,7 +533,8 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
           </p>
         )}
         <p className="dd-spread-hint dd-noprint">
-          Still open on the left. Decided on the right.
+          What is still hanging is on the left. What you already
+          agreed is on the right.
         </p>
       </header>
 
@@ -600,7 +604,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
 
       {undo ? (
         <p className="dd-banner dd-undo dd-noprint">
-          Removed that line.
+          That line is gone.
           <button type="button" className="dd-quiet" onClick={undoRemove}>
             Undo
           </button>
@@ -630,7 +634,8 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
 
       {missFind ? (
         <p className="dd-empty-line">
-          Nothing matches that search.
+          Nothing matches that search. Clear it if you want to see
+          everything again.
           <button
             type="button"
             className="dd-quiet"
@@ -651,7 +656,8 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
             <h2 id="dd-open-h">Still open</h2>
             {stillOpen.length === 0 && !drafting ? (
               <p className="dd-quiet-line">
-                Type a name and the leftover job on the next line.
+                Nothing is still open. Type a name and the leftover
+                job on the next line, or press New.
               </p>
             ) : (
               <ul className="dd-lines">
@@ -748,7 +754,9 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
           >
             <h2 id="dd-log-h">Decided</h2>
             {decided.length === 0 ? (
-              <p className="dd-quiet-line">Nothing decided yet.</p>
+              <p className="dd-quiet-line">
+                Nothing is decided yet. Closed lines will land here.
+              </p>
             ) : (
               <ul className="dd-lines">
                 {decided.map((item) => (

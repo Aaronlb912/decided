@@ -21,16 +21,22 @@ export function OpenBook({
     reader.onload = () => {
       const result = onLoad(String(reader.result || ''))
       if (result !== true) {
-        setMiss(result || 'That file is not a notebook we can open.')
+        setMiss(
+          result ||
+            'That file is not a notebook we can open. Try one you saved from this page.',
+        )
       }
     }
-    reader.onerror = () => setMiss('Could not read that file. Try again.')
+    reader.onerror = () =>
+      setMiss('We could not read that file. You can try another one.')
     reader.readAsText(file)
   }
 
   function needName(then) {
     if (!String(deskName || '').trim()) {
-      setMiss('Write your name first. It stays in this browser. It is not an account.')
+      setMiss(
+        'Write your name first so we can put it on the spine. It stays in this browser, and it is not an account.',
+      )
       return
     }
     setMiss('')
@@ -41,7 +47,7 @@ export function OpenBook({
     <div className="site">
       <div className="site-cover">
         <p className="site-back">
-          <a href="#/">Front cover</a>
+          <a href="#/">Back to the closed book</a>
         </p>
         <p className="site-mark">Pick a notebook</p>
         <h1>Decided</h1>
@@ -57,8 +63,8 @@ export function OpenBook({
           />
         </label>
         <p className="site-why">
-          It is written on the spine so the shop knows who used
-          this computer. It stays in this browser. Not an account.
+          Write your name so it shows on the spine. It stays in
+          this browser on this computer. It is not an account.
         </p>
         {miss ? (
           <p className="site-miss" role="alert">
@@ -71,20 +77,28 @@ export function OpenBook({
               <button type="button" className="site-primary" onClick={() => needName(onContinue)}>
                 Keep {bookTitle || 'this notebook'}
               </button>
-              <p className="site-hint">The notebook already in this browser.</p>
+              <p className="site-hint">
+                This is the notebook you already have in this
+                browser.
+              </p>
             </div>
           ) : null}
           <div className="site-choice">
             <button type="button" className="site-secondary" onClick={() => needName(onSample)}>
               Open the florist sample
             </button>
-            <p className="site-hint">Oak & Vine. Practice, fake shop.</p>
+            <p className="site-hint">
+              This opens Oak & Vine, a fake florist shop, so you
+              can practice.
+            </p>
           </div>
           <div className="site-choice">
             <button type="button" className="site-secondary" onClick={() => needName(onBlank)}>
               Start a blank notebook
             </button>
-            <p className="site-hint">Your own meeting.</p>
+            <p className="site-hint">
+              This starts empty, for a meeting of your own.
+            </p>
           </div>
           <div className="site-choice">
             <button
@@ -93,7 +107,7 @@ export function OpenBook({
               onClick={() => {
                 if (!String(deskName || '').trim()) {
                   setMiss(
-                    'Write your name first. It stays in this browser. It is not an account.',
+                    'Write your name first so we can put it on the spine. It stays in this browser, and it is not an account.',
                   )
                   return
                 }
@@ -103,7 +117,9 @@ export function OpenBook({
             >
               Load a saved notebook file
             </button>
-            <p className="site-hint">A file you saved from here (.json).</p>
+            <p className="site-hint">
+              This opens a notebook file you saved from here.
+            </p>
           </div>
         </div>
         <input
