@@ -1,8 +1,19 @@
+import { useState } from 'react'
+import { afterMotion } from '../lib/motion.js'
+
 export function Cover({ bookTitle, hasBook, hasDeskName, onOpen, onContinue }) {
   const ready = hasBook && hasDeskName
+  const [opening, setOpening] = useState(false)
+
+  function openPad() {
+    if (opening) return
+    setOpening(true)
+    afterMotion(onContinue, 300)
+  }
+
   return (
     <div className="site">
-      <div className="site-cover">
+      <div className={`site-cover${opening ? ' is-opening' : ''}`}>
         <p className="site-mark">Meeting notebook</p>
         <h1>Decided</h1>
         <p className="site-lede">
@@ -22,7 +33,7 @@ export function Cover({ bookTitle, hasBook, hasDeskName, onOpen, onContinue }) {
         )}
         <div className="site-actions">
           {ready ? (
-            <button type="button" className="site-primary" onClick={onContinue}>
+            <button type="button" className="site-primary" onClick={openPad}>
               Open {bookTitle || 'this notebook'}
             </button>
           ) : (

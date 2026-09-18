@@ -5,6 +5,7 @@ export function Book({
   bookMenu,
   onCover,
   deskName,
+  turnKey,
   children,
 }) {
   const list = Array.isArray(meetings) && meetings.length ? meetings : []
@@ -39,7 +40,9 @@ export function Book({
       <div className="dd-stage">
         <div className="dd-pad">
           <div className="dd-tape" aria-hidden="true" />
-          {children}
+          <div key={turnKey || 'pad'} className="dd-sheet">
+            {children}
+          </div>
         </div>
       </div>
     </div>

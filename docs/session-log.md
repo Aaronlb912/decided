@@ -100,3 +100,12 @@ What landed: Cover, open, how, drop-in, and pad sentences talk
 like a person explaining the notebook. How opening stayed.
 Gutter stamps stayed short.
 Next session: Ship later, when he asks. Do not mark SHIPPED.
+
+## 2026-09-18 - Motion M-A through M-E
+
+What runs: http://127.0.0.1:48531/
+What landed: Cover settles on the desk and hinges open into
+the pad. How and drop-in settle as paper. New lines fade in
+on the rule. Close/Reopen slide. Spine turns the sheet.
+Paste lays on. Reduced motion cuts it. No motion library.
+Next session: Ship later, when he asks. Do not mark SHIPPED.

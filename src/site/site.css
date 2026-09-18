@@ -10,6 +10,9 @@
   --site-write: Cambria, 'Palatino Linotype', Palatino, serif;
   --site-stamp-face: 'Trebuchet MS', 'Gill Sans', 'Century Gothic', sans-serif;
   --site-line: 28px;
+  --site-press: 200ms;
+  --site-page: 380ms;
+  --site-ease: ease-out;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -335,8 +338,87 @@
   }
 }
 
+.site-cover {
+  transform-origin: left center;
+  animation: site-cover-settle var(--site-page) var(--site-ease);
+}
+
+.site-cover.is-opening {
+  animation: site-cover-open 300ms var(--site-ease) forwards;
+}
+
+.site-matter {
+  transform-origin: center top;
+  animation: site-paper-settle var(--site-page) var(--site-ease);
+}
+
+.site-primary,
+.site-secondary,
+.site-quiet {
+  transition:
+    background-color var(--site-press) var(--site-ease),
+    transform var(--site-press) var(--site-ease);
+}
+
+.site-primary:active,
+.site-secondary:active {
+  transform: translateY(1px);
+}
+
+@keyframes site-cover-settle {
+  from {
+    transform: rotate(-1.1deg);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes site-cover-open {
+  from {
+    transform: none;
+  }
+  to {
+    transform: translateX(-18px) rotate(-6deg);
+  }
+}
+
+@keyframes site-paper-settle {
+  from {
+    transform: rotate(0.7deg);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-cover,
+  .site-cover.is-opening,
+  .site-matter {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .site-primary,
+  .site-secondary,
+  .site-quiet {
+    transition: none !important;
+  }
+
+  .site-primary:active,
+  .site-secondary:active {
+    transform: none;
+  }
+}
+
 @media print {
   .site {
     display: none;
+  }
+
+  .site-cover,
+  .site-matter {
+    animation: none !important;
   }
 }

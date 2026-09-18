@@ -78,6 +78,8 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
   const [pasting, setPasting] = useState(false)
   const [drafting, setDrafting] = useState(false)
   const [draftOwner, setDraftOwner] = useState('')
+  const [freshId, setFreshId] = useState('')
+  const [freshKind, setFreshKind] = useState('')
   const [draftWhat, setDraftWhat] = useState('')
   const [draftMiss, setDraftMiss] = useState('')
   const [pageTab, setPageTab] = useState('open')
@@ -88,6 +90,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
   const [dateDraft, setDateDraft] = useState(log.meetingOn)
   const [loadMiss, setLoadMiss] = useState('')
   const undoTimer = useRef(null)
+  const freshTimer = useRef(null)
   const fileRef = useRef(null)
   const searchRef = useRef(null)
   const draftWhatRef = useRef(null)
@@ -139,6 +142,16 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
       )
     : []
 
+  function markFresh(id, kind) {
+    setFreshId(id)
+    setFreshKind(kind)
+    if (freshTimer.current) clearTimeout(freshTimer.current)
+    freshTimer.current = setTimeout(() => {
+      setFreshId('')
+      setFreshKind('')
+    }, 420)
+  }
+
   function startDraft() {
     setUndo(null)
     setLoadMiss('')
@@ -174,6 +187,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
     changeDecisions([...log.decisions, next])
     cancelDraft()
     setSelectedId(next.id)
+    markFresh(next.id, 'new')
   }
 
   function openOne(decision) {
@@ -226,6 +240,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
         item.id === id ? { ...item, stillOpen: false, closedOn: todayStamp() } : item,
       ),
     )
+    markFresh(id, 'close')
   }
 
   function reopenDecision(id) {
@@ -234,6 +249,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
         item.id === id ? { ...item, stillOpen: true, closedOn: '' } : item,
       ),
     )
+    markFresh(id, 'reopen')
   }
 
   function duplicateDecision(item) {
@@ -435,6 +451,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
         bookMenu={bookMenu}
         onCover={onCover}
         deskName={deskName}
+        turnKey={log.id}
       >
         <DecisionPage
           decision={open.decision}
@@ -458,6 +475,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
       bookMenu={bookMenu}
       onCover={onCover}
       deskName={deskName}
+      turnKey={log.id}
     >
       <header className="dd-heading">
         {renaming ? (
@@ -664,6 +682,9 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
                 {stillOpen.map((item) => (
                   <li
                     key={item.id}
+                    className={
+                      item.id === freshId ? `is-in${freshKind ? ` is-${freshKind}` : ''}` : ''
+                    }
                     draggable
                     onDragStart={() => {
                       dragId.current = item.id
@@ -703,7 +724,7 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
                   </li>
                 ))}
                 {drafting ? (
-                  <li className="dd-draft">
+                  <li className="dd-draft is-in">
                     <input
                       className="dd-draft-owner"
                       value={draftOwner}
@@ -760,7 +781,12 @@ export function Log({ value, onChange, onResetSample, onCover, deskName }) {
             ) : (
               <ul className="dd-lines">
                 {decided.map((item) => (
-                  <li key={item.id}>
+                  <li
+                    key={item.id}
+                    className={
+                      item.id === freshId ? `is-in${freshKind ? ` is-${freshKind}` : ''}` : ''
+                    }
+                  >
                     <button
                       type="button"
                       className={`dd-line${selectedId === item.id ? ' is-selected' : ''}`}

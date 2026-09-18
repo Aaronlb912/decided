@@ -14,6 +14,9 @@
   --dd-gutter: 6.25rem;
   --dd-write: Cambria, 'Palatino Linotype', Palatino, serif;
   --dd-stamp-face: 'Trebuchet MS', 'Gill Sans', 'Century Gothic', sans-serif;
+  --dd-press: 200ms;
+  --dd-page: 380ms;
+  --dd-ease: ease-out;
   display: flex;
   align-items: stretch;
   width: min(62rem, calc(100% - 36px));
@@ -880,6 +883,18 @@
     background: #fff !important;
   }
 
+  .dd-app,
+  .dd-sheet,
+  .dd-call,
+  .dd-paste-wrap,
+  .dd-banner,
+  .dd-draft.is-in,
+  .dd-lines > li.is-in,
+  .dd-book-menu[open] .dd-book-menu-panel {
+    animation: none !important;
+    transform: none !important;
+  }
+
   .dd-app {
     display: block;
     min-height: 0;
@@ -919,5 +934,192 @@
 
   body.dd-print-open .dd-leaf-decided {
     display: none !important;
+  }
+}
+
+.dd-app {
+  animation: dd-pad-settle var(--dd-page) var(--dd-ease);
+}
+
+.dd-sheet {
+  animation: dd-turn var(--dd-page) var(--dd-ease);
+}
+
+.dd-call {
+  animation: dd-sheet-on var(--dd-page) var(--dd-ease);
+}
+
+.dd-paste-wrap {
+  transform-origin: top left;
+  animation: dd-paste-in var(--dd-page) var(--dd-ease);
+}
+
+.dd-banner {
+  animation: dd-ink-in var(--dd-press) var(--dd-ease);
+}
+
+.dd-draft.is-in,
+.dd-lines > li.is-in {
+  animation: dd-line-in var(--dd-press) var(--dd-ease);
+}
+
+.dd-lines > li.is-close {
+  animation: dd-to-right var(--dd-page) var(--dd-ease);
+}
+
+.dd-lines > li.is-reopen {
+  animation: dd-to-left var(--dd-page) var(--dd-ease);
+}
+
+.dd-book-menu[open] .dd-book-menu-panel {
+  transform-origin: top left;
+  animation: dd-flap var(--dd-press) var(--dd-ease);
+}
+
+.dd-what mark {
+  transition: background var(--dd-press) var(--dd-ease);
+}
+
+.dd-pad button.dd-stamp,
+.dd-tabs button,
+.dd-tray button.dd-new,
+.dd-tray button.dd-paste-btn,
+.dd-cover-btn,
+.dd-spine-meetings button {
+  transition:
+    color var(--dd-press) var(--dd-ease),
+    background-color var(--dd-press) var(--dd-ease),
+    transform var(--dd-press) var(--dd-ease);
+}
+
+.dd-pad button.dd-stamp:active,
+.dd-tabs button:active,
+.dd-tray button.dd-new:active,
+.dd-tray button.dd-paste-btn:active,
+.dd-cover-btn:active {
+  transform: translateY(1px);
+}
+
+@keyframes dd-pad-settle {
+  from {
+    transform: rotate(-0.5deg);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes dd-turn {
+  from {
+    transform: translateX(10px);
+    opacity: 0.45;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes dd-sheet-on {
+  from {
+    transform: rotate(0.6deg);
+    opacity: 0.5;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes dd-paste-in {
+  from {
+    transform: rotate(-1deg);
+    opacity: 0.4;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes dd-line-in {
+  from {
+    opacity: 0.15;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dd-to-right {
+  from {
+    transform: translateX(-14px);
+    opacity: 0.35;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes dd-to-left {
+  from {
+    transform: translateX(14px);
+    opacity: 0.35;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes dd-ink-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dd-flap {
+  from {
+    transform: rotateX(-8deg);
+    opacity: 0.4;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-app,
+  .dd-sheet,
+  .dd-call,
+  .dd-paste-wrap,
+  .dd-banner,
+  .dd-draft.is-in,
+  .dd-lines > li.is-in,
+  .dd-book-menu[open] .dd-book-menu-panel {
+    animation: none !important;
+  }
+
+  .dd-pad button.dd-stamp,
+  .dd-tabs button,
+  .dd-tray button.dd-new,
+  .dd-tray button.dd-paste-btn,
+  .dd-cover-btn,
+  .dd-spine-meetings button,
+  .dd-what mark {
+    transition: none !important;
+  }
+
+  .dd-pad button.dd-stamp:active,
+  .dd-tabs button:active,
+  .dd-tray button.dd-new:active,
+  .dd-tray button.dd-paste-btn:active,
+  .dd-cover-btn:active {
+    transform: none;
   }
 }

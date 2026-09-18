@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { afterMotion } from '../lib/motion.js'
 
 export function OpenBook({
   deskName,
@@ -12,6 +13,13 @@ export function OpenBook({
 }) {
   const fileRef = useRef(null)
   const [miss, setMiss] = useState('')
+  const [opening, setOpening] = useState(false)
+
+  function openThen(then) {
+    if (opening) return
+    setOpening(true)
+    afterMotion(then, 300)
+  }
 
   function pickFile(event) {
     const file = event.target.files && event.target.files[0]
@@ -43,9 +51,13 @@ export function OpenBook({
     then()
   }
 
+  function goPad(then) {
+    needName(() => openThen(then))
+  }
+
   return (
     <div className="site">
-      <div className="site-cover">
+      <div className={`site-cover${opening ? ' is-opening' : ''}`}>
         <p className="site-back">
           <a href="#/">Back to the closed book</a>
         </p>
@@ -74,7 +86,7 @@ export function OpenBook({
         <div className="site-actions">
           {hasBook ? (
             <div className="site-choice">
-              <button type="button" className="site-primary" onClick={() => needName(onContinue)}>
+              <button type="button" className="site-primary" onClick={() => goPad(onContinue)}>
                 Keep {bookTitle || 'this notebook'}
               </button>
               <p className="site-hint">
@@ -84,7 +96,7 @@ export function OpenBook({
             </div>
           ) : null}
           <div className="site-choice">
-            <button type="button" className="site-secondary" onClick={() => needName(onSample)}>
+            <button type="button" className="site-secondary" onClick={() => goPad(onSample)}>
               Open the florist sample
             </button>
             <p className="site-hint">
@@ -93,7 +105,7 @@ export function OpenBook({
             </p>
           </div>
           <div className="site-choice">
-            <button type="button" className="site-secondary" onClick={() => needName(onBlank)}>
+            <button type="button" className="site-secondary" onClick={() => goPad(onBlank)}>
               Start a blank notebook
             </button>
             <p className="site-hint">
