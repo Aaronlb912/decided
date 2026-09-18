@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { splitPaste } from './decided-json.js'
 
-export function PasteBox({ onKeep }) {
+export function PasteBox({ onKeep, onCancel }) {
   const [text, setText] = useState('')
+  const [thread, setThread] = useState('')
   const [lines, setLines] = useState(null)
   const [picked, setPicked] = useState({})
   const [miss, setMiss] = useState('')
@@ -13,7 +14,7 @@ export function PasteBox({ onKeep }) {
     if (!next.length) {
       setLines([])
       setPicked({})
-      setMiss('Paste a dump first.')
+      setMiss('Paste first.')
       return
     }
     const map = {}
@@ -28,42 +29,50 @@ export function PasteBox({ onKeep }) {
   function keep(event) {
     event.preventDefault()
     if (!lines || !lines.length) {
-      setMiss('Split the paste into lines first.')
+      setMiss('Split into lines first.')
       return
     }
     const kept = lines.filter((_, index) => picked[index])
     if (!kept.length) {
-      setMiss('Tick at least one line to keep.')
+      setMiss('Tick a line to keep.')
       return
     }
-    onKeep(kept)
-    setText('')
-    setLines(null)
-    setPicked({})
-    setMiss('')
-  }
-
-  function toggle(index) {
-    setPicked({ ...picked, [index]: !picked[index] })
+    onKeep(kept, thread.trim())
   }
 
   return (
-    <section className="dd-section">
-      <h2>Paste a dump</h2>
-      <p className="dd-hint">
-        Drop in a long email or meeting notes. Split on blank lines, or
-        sentences if it is one block. Tick the lines to keep.
-      </p>
+    <section className="dd-paste-wrap dd-noprint">
+      <div className="dd-paste-head">
+        <h2>Paste insert</h2>
+        {onCancel ? (
+          <button type="button" className="dd-quiet" onClick={onCancel}>
+            Cancel
+          </button>
+        ) : null}
+      </div>
       <form className="dd-paste" onSubmit={keep}>
         <textarea
           value={text}
           onChange={(event) => setText(event.target.value)}
-          placeholder="Paste here. Blank lines make separate calls."
+          placeholder="Email or notes. Blank lines make separate calls."
+          autoFocus
         />
-        {miss ? <p className="dd-miss" role="alert">{miss}</p> : null}
+        <label className="dd-field">
+          From
+          <input
+            value={thread}
+            onChange={(event) => setThread(event.target.value)}
+            placeholder="Floor huddle, 16 Sep"
+          />
+        </label>
+        {miss ? (
+          <p className="dd-miss" role="alert">
+            {miss}
+          </p>
+        ) : null}
         {lines ? (
           lines.length === 0 ? (
-            <p className="dd-hint">Nothing to keep in that paste.</p>
+            <p className="dd-quiet-line">Nothing to keep.</p>
           ) : (
             <ul className="dd-candidates">
               {lines.map((line, index) => (
@@ -71,7 +80,7 @@ export function PasteBox({ onKeep }) {
                   <input
                     type="checkbox"
                     checked={Boolean(picked[index])}
-                    onChange={() => toggle(index)}
+                    onChange={() => setPicked({ ...picked, [index]: !picked[index] })}
                   />
                   <span>{line}</span>
                 </li>
@@ -79,12 +88,12 @@ export function PasteBox({ onKeep }) {
             </ul>
           )
         ) : null}
-        <div className="dd-actions">
-          <button type="button" className="dd-secondary" onClick={split}>
+        <div className="dd-paste-actions">
+          <button type="button" onClick={split}>
             Split into lines
           </button>
           {lines && lines.length > 0 ? (
-            <button type="submit">Keep ticked lines</button>
+            <button type="submit">Keep ticked</button>
           ) : null}
         </div>
       </form>

@@ -43,6 +43,9 @@ export function blankDecision() {
     stillOpen: false,
     owner: '',
     notes: '',
+    thread: '',
+    followUp: '',
+    closedOn: '',
   }
 }
 
@@ -51,6 +54,7 @@ export function blankLog() {
     id: newLogId(),
     title: 'Decisions',
     note: '',
+    meetingOn: '',
     decisions: [],
   }
 }
@@ -60,6 +64,29 @@ function todayStamp() {
   const month = String(now.getMonth() + 1).padStart(2, '0')
   const day = String(now.getDate()).padStart(2, '0')
   return `${now.getFullYear()}-${month}-${day}`
+}
+
+export function formatWhen(value) {
+  const raw = String(value || '').trim()
+  const match = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+  if (!match) return raw
+  const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]))
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  })
+}
+
+export function formatHeadingDate(value) {
+  const raw = String(value || '').trim()
+  const match = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+  if (!match) return raw
+  const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]))
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
 }
 
 function asText(value) {
@@ -73,6 +100,7 @@ export function normalizeDecision(raw) {
   const what = asText(raw.what) || asText(raw.title)
   const owner = asText(raw.owner) || asText(raw.ownedBy)
   const stillOpen = Boolean(raw.stillOpen ?? raw.open ?? raw.still_open)
+  const thread = asText(raw.thread) || asText(raw.source)
   return {
     id: asText(raw.id) || newDecisionId(),
     what: what.trim(),
@@ -81,6 +109,9 @@ export function normalizeDecision(raw) {
     stillOpen,
     owner: owner.trim(),
     notes: asText(raw.notes).trim(),
+    thread: thread.trim(),
+    followUp: asText(raw.followUp).trim(),
+    closedOn: asText(raw.closedOn).trim(),
   }
 }
 
@@ -90,6 +121,7 @@ export function normalizeLog(raw) {
       id: newLogId(),
       title: 'Decisions',
       note: '',
+      meetingOn: '',
       decisions: raw.map((item) => normalizeDecision(item)),
     }
   }
@@ -101,6 +133,7 @@ export function normalizeLog(raw) {
     id: asText(raw.id) || newLogId(),
     title: asText(raw.title).trim() || 'Decisions',
     note: asText(raw.note).trim(),
+    meetingOn: asText(raw.meetingOn).trim(),
     decisions: decisions
       .filter((item) => item && typeof item === 'object' && !Array.isArray(item))
       .map((item) => normalizeDecision(item)),
@@ -143,7 +176,20 @@ export function splitPaste(text) {
   )
 }
 
-export function decisionsFromLines(lines) {
+export function looksStillOpen(text) {
+  const line = String(text || '').trim()
+  if (!line) return false
+  if (line.includes('?')) return true
+  return /^(still|open|need|who|when)\b/i.test(line)
+}
+
+export function parseLogJson(text) {
+  const parsed = JSON.parse(String(text || ''))
+  return normalizeLog(parsed)
+}
+
+export function decisionsFromLines(lines, extras) {
+  const thread = asText(extras?.thread)
   return lines
     .map((line) => String(line || '').trim())
     .filter(Boolean)
@@ -151,6 +197,8 @@ export function decisionsFromLines(lines) {
       normalizeDecision({
         ...blankDecision(),
         what,
+        stillOpen: looksStillOpen(what),
+        thread,
       }),
     )
 }

@@ -13,3 +13,43 @@ misses. Download JSON. Demo keeps work in localStorage. Reset
 sample on the list.
 Next session: Search. Empty state. Close an open item from the
 list. Persist polish.
+
+## 2026-09-18 - Session 2 and 3
+
+What runs: http://127.0.0.1:48531/
+What landed: Search on what, who, owner, notes. Filter All /
+still open / decided. Close an open item from the list without
+deleting it. Click the card body to open. Duplicate. Rename the
+log title. Load JSON. Start blank. Reset sample stays. Optional
+thread / source on a decision; old JSON without it still loads.
+Paste heuristic: questions and still/open/need/who/when lines
+land still-open, the rest decided. Print hides chrome and puts
+open items first. Empty states for a blank log and a search or
+filter miss. Header counts. Notepad CSS, rust open, green decided.
+Next session: Draft 30. D-A pad CSS in
+`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\draft-30-prompt.md`.
+Do not ship.
+
+## 2026-09-18 - D-A and D-B
+
+What runs: http://127.0.0.1:48531/
+What landed: Cream legal pad on a desk. Blue rules, double red
+margin, black bind. Owner in the gutter, serif call, Close as a
+small stamp. Ledger is dated lines. Quiet Reopen puts a row
+back in still open and clears `closedOn`. Old JSON still loads
+(`followUp`, `closedOn`, `meetingOn` default blank). 390 stacks
+open then ledger. Print hides Find / More / Close / Reopen;
+rules stay.
+Next session: R-C write on the line. Do not ship.
+
+## 2026-09-18 - R-A and R-B
+
+What runs: http://127.0.0.1:48531/
+What landed: Rebuilt the view. Cloth spine with Book menu
+(print / JSON / blank / sample). Yellow pad, blue rules, red
+margin, black tape. Title and meeting date sit on the first
+lines. Tray: Open / Decided tabs, Find stamp, rust New, Paste.
+Spread is still-open left, decided right. 390 shows one page
+via the tabs. File ops are not in the first row. No More menu.
+Old JSON still loads.
+Next session: R-C. New open call on the next blank line.

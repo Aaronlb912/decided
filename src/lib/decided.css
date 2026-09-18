@@ -1,303 +1,783 @@
-.dd {
-  --dd-ink: #2a241c;
-  --dd-ink-soft: #6a5e50;
-  --dd-paper: #f7f1e6;
-  --dd-page: #d4c4b0;
-  --dd-line: #c4b49a;
-  --dd-head: #3d4a32;
-  --dd-open: #6b3a32;
-  --dd-miss: #7a2e1b;
-  --dd-radius: 2px;
-  --dd-ui: system-ui, sans-serif;
-  min-height: 100vh;
-  max-width: 42rem;
-  margin: 0 auto;
-  padding: 28px 22px 72px;
-  color: var(--dd-ink);
-}
-
-.dd-top {
-  margin-bottom: 22px;
-  padding-bottom: 16px;
-  border-bottom: 2px solid var(--dd-ink);
-}
-
-.dd-kicker {
-  margin: 0 0 8px;
-  font-family: var(--dd-ui);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--dd-ink-soft);
-}
-
-.dd h1 {
-  margin: 0;
-  font-size: 30px;
-  font-weight: 400;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
-}
-
-.dd-note,
-.dd-hint {
-  margin: 8px 0 0;
-  font-family: var(--dd-ui);
-  font-size: 14px;
-  line-height: 1.45;
-  color: var(--dd-ink-soft);
-}
-
-.dd-actions {
+.dd-app {
+  --dd-ink: #1a1612;
+  --dd-ink-soft: #6a5e4e;
+  --dd-paper: #f4e7b5;
+  --dd-paper-dim: #e8d49a;
+  --dd-rule: #7ba3c9;
+  --dd-margin: #d23c32;
+  --dd-tape: #1a1612;
+  --dd-cloth: #3a1f24;
+  --dd-cloth-rib: #4a282e;
+  --dd-gold: #f0d9a8;
+  --dd-stamp: #8c2a22;
+  --dd-line: 28px;
+  --dd-gutter: 6.25rem;
+  --dd-write: Cambria, 'Palatino Linotype', Palatino, serif;
+  --dd-stamp-face: 'Trebuchet MS', 'Gill Sans', 'Century Gothic', sans-serif;
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 16px;
-}
-
-.dd button {
-  font-family: var(--dd-ui);
-  font-size: 13px;
-  line-height: 1.2;
-  border: 1px solid var(--dd-ink);
-  background: var(--dd-ink);
-  color: var(--dd-paper);
-  padding: 8px 14px;
-  cursor: pointer;
-  border-radius: var(--dd-radius);
-}
-
-.dd button:hover,
-.dd button:focus-visible {
-  background: var(--dd-head);
-  border-color: var(--dd-head);
-}
-
-.dd button.dd-secondary {
-  background: var(--dd-paper);
+  align-items: stretch;
+  min-height: 100vh;
   color: var(--dd-ink);
+  font-family: var(--dd-write);
 }
 
-.dd button.dd-secondary:hover,
-.dd button.dd-secondary:focus-visible {
-  background: #efe6d4;
-  color: var(--dd-ink);
-  border-color: var(--dd-ink);
+.dd-spine {
+  width: 10.25rem;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px 14px 20px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--dd-cloth) 0 3px,
+      var(--dd-cloth-rib) 3px 6px
+    );
+  color: var(--dd-gold);
+  box-shadow: inset -10px 0 12px rgba(0, 0, 0, 0.28);
 }
 
-.dd button.dd-quiet {
-  background: transparent;
-  color: var(--dd-ink-soft);
-  border: 0;
-  border-bottom: 1px dotted currentColor;
-  padding: 1px 0;
-  font-size: 12px;
-  border-radius: 0;
-  min-height: 0;
-}
-
-.dd button.dd-quiet:hover,
-.dd button.dd-quiet:focus-visible {
-  background: transparent;
-  color: var(--dd-ink);
-  border-color: currentColor;
-}
-
-.dd-miss {
-  margin: 0 0 16px;
-  font-family: var(--dd-ui);
-  font-size: 14px;
-  color: var(--dd-miss);
-}
-
-.dd-undo {
-  margin: 0 0 16px;
-  padding: 10px 12px;
-  font-family: var(--dd-ui);
-  font-size: 14px;
-  color: var(--dd-ink-soft);
-  background: #efe6d4;
-  border: 1px solid var(--dd-line);
-}
-
-.dd-section {
-  margin: 0 0 28px;
-}
-
-.dd-section h2 {
-  margin: 0 0 10px;
-  font-size: 13px;
-  font-family: var(--dd-ui);
-  font-weight: 600;
-  letter-spacing: 0.08em;
+.dd-spine-mark {
+  margin: 0;
+  font-family: var(--dd-stamp-face);
+  font-size: 10px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--dd-ink-soft);
+  color: #cbb48a;
 }
 
-.dd-list {
+.dd-spine-meetings {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: 10px;
+  flex: 1;
 }
 
-.dd-card {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 14px;
-  background: var(--dd-paper);
-  border: 1px solid var(--dd-line);
-}
-
-.dd-card-open {
-  border-left: 4px solid var(--dd-open);
-}
-
-.dd-card h3 {
-  margin: 0 0 4px;
-  font-size: 17px;
-  font-weight: 400;
-  line-height: 1.3;
-}
-
-.dd-meta {
+.dd-spine-meetings button {
+  display: block;
+  width: 100%;
   margin: 0;
-  font-family: var(--dd-ui);
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(240, 217, 168, 0.28);
+  background: transparent;
+  color: inherit;
+  font-family: var(--dd-write);
+  font-size: 15px;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dd-spine-meetings button.is-on {
+  color: #fff6dc;
+}
+
+.dd-spine-meetings button:hover,
+.dd-spine-meetings button:focus-visible {
+  color: #fff6dc;
+}
+
+.dd-spine-meetings button:focus-visible,
+.dd-book-menu summary:focus-visible,
+.dd-book-menu button:focus-visible {
+  outline: 2px solid var(--dd-gold);
+  outline-offset: 2px;
+}
+
+.dd-book-menu {
+  font-family: var(--dd-stamp-face);
+  font-size: 12px;
+}
+
+.dd-book-menu summary {
+  cursor: pointer;
+  list-style: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 0;
+}
+
+.dd-book-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.dd-book-menu-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.dd-book-menu button,
+.dd-pad button.dd-quiet,
+.dd-pad button.dd-back {
+  font-family: var(--dd-stamp-face);
+  font-size: 12px;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  padding: 2px 0;
+  cursor: pointer;
+}
+
+.dd-book-menu button {
+  color: var(--dd-gold);
+  text-align: left;
+}
+
+.dd-book-menu button:hover,
+.dd-pad button.dd-quiet:hover,
+.dd-pad button.dd-back:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.dd-file {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.dd-stage {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.dd-pad {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  padding: 0 1.25rem 2.4rem 0;
+  background-color: var(--dd-paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(var(--dd-line) - 1px),
+    var(--dd-rule) calc(var(--dd-line) - 1px),
+    var(--dd-rule) var(--dd-line)
+  );
+  background-position: 0 22px;
+  box-shadow:
+    0 0 0 1px #d8c48a,
+    10px 14px 0 rgba(26, 22, 18, 0.16);
+}
+
+.dd-tape {
+  height: 16px;
+  margin: 0 0 6px;
+  background: var(--dd-tape);
+}
+
+.dd-pad::before {
+  content: '';
+  position: absolute;
+  left: var(--dd-gutter);
+  top: 16px;
+  bottom: 8px;
+  width: 3px;
+  border-left: 2px solid var(--dd-margin);
+  border-right: 1px solid var(--dd-margin);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dd-heading {
+  padding: 2px 0 0 calc(var(--dd-gutter) + 12px);
+}
+
+.dd-heading h1 {
+  margin: 0;
+  min-height: var(--dd-line);
+  font-size: 26px;
+  font-weight: 400;
+  line-height: var(--dd-line);
+  letter-spacing: -0.02em;
+}
+
+.dd-heading-date {
+  margin: 0;
+  min-height: var(--dd-line);
+  font-family: var(--dd-stamp-face);
   font-size: 13px;
+  line-height: var(--dd-line);
   color: var(--dd-ink-soft);
-  line-height: 1.4;
+}
+
+.dd-pad button.dd-title-btn,
+.dd-pad button.dd-date-btn {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dd-pad button.dd-title-btn:hover,
+.dd-pad button.dd-date-btn:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.dd-title-input,
+.dd-date-input {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  width: calc(100% - 8px);
+  line-height: var(--dd-line);
+}
+
+.dd-pad button:focus-visible,
+.dd-title-input:focus-visible,
+.dd-date-input:focus-visible,
+.dd-find-stamp input:focus-visible,
+.dd-call input:focus-visible,
+.dd-call textarea:focus-visible,
+.dd-paste textarea:focus-visible,
+.dd-paste input:focus-visible {
+  outline: 2px solid var(--dd-ink);
+  outline-offset: 2px;
+}
+
+.dd-tray {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px 12px;
+  margin: 4px 0 10px;
+  padding: 8px 0 8px calc(var(--dd-gutter) + 12px);
+  font-family: var(--dd-stamp-face);
+}
+
+.dd-tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+}
+
+.dd-tabs button {
+  margin: 0;
+  padding: 6px 12px 5px;
+  border: 1px solid var(--dd-ink);
+  border-bottom: 0;
+  background: var(--dd-paper-dim);
+  color: var(--dd-ink);
+  font-family: var(--dd-stamp-face);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.dd-tabs button.is-on {
+  background: var(--dd-paper);
+  padding-bottom: 7px;
+}
+
+.dd-find-stamp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 13.5rem;
+  flex: 0 0 13.5rem;
+  border: 1px solid var(--dd-ink);
+  padding: 3px 8px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dd-ink-soft);
+}
+
+.dd-find-stamp input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--dd-ink);
+  font-family: var(--dd-write);
+  font-size: 15px;
+  letter-spacing: 0;
+  text-transform: none;
+  padding: 2px 0;
+}
+
+.dd-tray button.dd-new {
+  background: var(--dd-stamp);
+  color: var(--dd-paper);
+  border: 1px solid var(--dd-stamp);
+  font-family: var(--dd-stamp-face);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.dd-tray button.dd-new:hover {
+  background: #6f211a;
+  border-color: #6f211a;
+}
+
+.dd-tray button.dd-paste-btn {
+  background: transparent;
+  color: var(--dd-ink);
+  border: 1px solid var(--dd-ink);
+  font-family: var(--dd-stamp-face);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.dd-tray button.dd-paste-btn.is-on,
+.dd-tray button.dd-paste-btn:hover {
+  background: rgba(26, 22, 18, 0.06);
+}
+
+.dd-banner {
+  margin: 0 0 6px;
+  padding-left: calc(var(--dd-gutter) + 12px);
+  min-height: var(--dd-line);
+  font-family: var(--dd-stamp-face);
+  font-size: 13px;
+  line-height: var(--dd-line);
+}
+
+.dd-miss {
+  color: var(--dd-stamp);
+}
+
+.dd-undo {
+  color: var(--dd-ink-soft);
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.dd-spread {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 0 4px;
+  align-items: start;
+}
+
+.dd-leaf {
+  min-width: 0;
+}
+
+.dd-leaf-decided {
+  border-left: 1px dashed rgba(26, 22, 18, 0.22);
+}
+
+.dd-leaf h2 {
+  margin: 0;
+  padding: 0 8px 0 calc(var(--dd-gutter) + 12px);
+  min-height: var(--dd-line);
+  font-family: var(--dd-stamp-face);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: var(--dd-line);
+  color: var(--dd-ink-soft);
+}
+
+.dd-leaf-decided h2 {
+  padding-left: 12px;
+}
+
+.dd-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dd-lines > li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  min-height: var(--dd-line);
+}
+
+.dd-line {
+  display: grid;
+  grid-template-columns: var(--dd-gutter) 1fr auto;
+  gap: 10px;
+  align-items: baseline;
+  width: 100%;
+  margin: 0;
+  padding: 0 6px 0 10px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  min-height: var(--dd-line);
+  cursor: pointer;
+}
+
+.dd-leaf-decided .dd-line {
+  grid-template-columns: 3.6rem 1fr;
+  padding-left: 12px;
+}
+
+.dd-line:hover,
+.dd-line:focus-visible {
+  background: rgba(210, 60, 50, 0.06);
 }
 
 .dd-owner {
-  color: var(--dd-open);
+  font-family: var(--dd-stamp-face);
+  font-size: 12px;
+  color: var(--dd-stamp);
 }
 
-.dd-row-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
-  flex-shrink: 0;
+.dd-what {
+  font-size: 16px;
+  line-height: var(--dd-line);
 }
 
-.dd-empty {
-  margin: 0;
-  padding: 18px 14px;
-  font-family: var(--dd-ui);
-  font-size: 14px;
+.dd-when {
+  font-family: var(--dd-stamp-face);
+  font-size: 12px;
   color: var(--dd-ink-soft);
-  background: var(--dd-paper);
-  border: 1px dashed var(--dd-line);
+  white-space: nowrap;
 }
 
-.dd-paste {
-  margin: 8px 0 0;
-  padding: 14px;
-  background: var(--dd-paper);
-  border: 1px solid var(--dd-line);
+.dd-pad button.dd-stamp {
+  align-self: center;
+  margin-right: 8px;
+  padding: 1px 7px;
+  border: 1px solid var(--dd-stamp);
+  background: transparent;
+  color: var(--dd-stamp);
+  font-family: var(--dd-stamp-face);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.dd-pad button.dd-stamp:hover,
+.dd-pad button.dd-stamp:focus-visible {
+  background: var(--dd-stamp);
+  color: var(--dd-paper);
+}
+
+.dd-quiet-line,
+.dd-empty-line {
+  margin: 0;
+  padding-left: calc(var(--dd-gutter) + 12px);
+  min-height: var(--dd-line);
+  font-family: var(--dd-stamp-face);
+  font-size: 14px;
+  line-height: var(--dd-line);
+  color: var(--dd-ink-soft);
+}
+
+.dd-leaf-decided .dd-quiet-line {
+  padding-left: 12px;
+}
+
+.dd-back {
+  display: block;
+  margin: 4px 0 0;
+  padding-left: calc(var(--dd-gutter) + 12px);
+  min-height: var(--dd-line);
+  line-height: var(--dd-line);
+}
+
+.dd-call {
+  padding-top: 2px;
+}
+
+.dd-field {
+  display: grid;
+  grid-template-columns: var(--dd-gutter) 1fr;
+  gap: 10px;
+  align-items: start;
+  min-height: var(--dd-line);
+  margin: 0;
+  padding: 0 10px 0 10px;
+  font-family: var(--dd-stamp-face);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dd-ink-soft);
+}
+
+.dd-field input,
+.dd-field textarea {
+  font-family: var(--dd-write);
+  font-size: 16px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--dd-ink);
+  background: transparent;
+  border: 0;
+  width: 100%;
+  padding: 0;
+  line-height: var(--dd-line);
+}
+
+.dd-field textarea {
+  min-height: calc(var(--dd-line) * 3);
+  resize: vertical;
+  line-height: var(--dd-line);
+}
+
+.dd-check {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 14px;
+  color: var(--dd-ink);
+  align-items: center;
+}
+
+.dd-check input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--dd-stamp);
+}
+
+.dd-field-miss input,
+.dd-field-miss textarea {
+  box-shadow: inset 0 -2px 0 var(--dd-stamp);
+}
+
+.dd-call-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+  margin-top: 8px;
+  padding-left: calc(var(--dd-gutter) + 12px);
+  min-height: var(--dd-line);
+}
+
+.dd-call-actions button[type='submit'] {
+  background: var(--dd-stamp);
+  color: var(--dd-paper);
+  border: 1px solid var(--dd-stamp);
+  font-family: var(--dd-stamp-face);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.dd-call-actions button[type='submit']:hover {
+  background: #6f211a;
+}
+
+.dd-call-actions button.dd-cancel {
+  background: transparent;
+  border: 1px solid var(--dd-ink);
+  color: var(--dd-ink);
+  font-family: var(--dd-stamp-face);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.dd-paste-wrap {
+  margin: 4px 12px 12px calc(var(--dd-gutter) + 8px);
+  padding: 8px 12px 12px;
+  background: #efe0a8;
+  border: 1px solid var(--dd-ink);
+  box-shadow: 3px 4px 0 rgba(26, 22, 18, 0.12);
+}
+
+.dd-paste-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  min-height: var(--dd-line);
+}
+
+.dd-paste-head h2 {
+  margin: 0;
+  font-family: var(--dd-stamp-face);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .dd-paste textarea,
-.dd-form input:not([type='checkbox']),
-.dd-form textarea {
-  font: inherit;
-  font-family: var(--dd-ui);
+.dd-paste input {
+  font-family: var(--dd-write);
   font-size: 15px;
   width: 100%;
-  border: 1px solid var(--dd-line);
-  background: #fffdf8;
+  border: 0;
+  border-bottom: 1px solid var(--dd-rule);
+  background: transparent;
   color: inherit;
-  padding: 8px 10px;
-  border-radius: var(--dd-radius);
+  padding: 4px 0;
 }
 
 .dd-paste textarea {
-  min-height: 8rem;
+  min-height: 6.5rem;
+  margin: 6px 0 8px;
   resize: vertical;
 }
 
 .dd-candidates {
   list-style: none;
-  margin: 12px 0 0;
+  margin: 8px 0;
   padding: 0;
   display: grid;
-  gap: 8px;
+  gap: 6px;
 }
 
 .dd-candidates li {
   display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  font-family: var(--dd-ui);
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.dd-candidates input {
-  margin-top: 3px;
-}
-
-.dd-form {
-  display: grid;
-  gap: 14px;
-  margin-top: 18px;
-}
-
-.dd-field {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  font-family: var(--dd-ui);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--dd-ink-soft);
-}
-
-.dd-check {
-  flex-direction: row;
-  align-items: center;
   gap: 8px;
-  text-transform: none;
-  letter-spacing: 0;
-  font-size: 14px;
-  color: var(--dd-ink);
+  align-items: flex-start;
+  font-size: 15px;
+  line-height: 1.35;
 }
 
-.dd-check input[type='checkbox'] {
-  width: 1rem;
-  height: 1rem;
-  margin: 0;
-  accent-color: var(--dd-open);
-}
-
-.dd-form-actions {
+.dd-paste-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  align-items: center;
-  margin-top: 4px;
 }
 
-.dd-form textarea {
-  min-height: 6rem;
-  resize: vertical;
+.dd-paste-actions button {
+  font-family: var(--dd-stamp-face);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border: 1px solid var(--dd-ink);
+  background: transparent;
+  color: var(--dd-ink);
+  cursor: pointer;
 }
 
-@media (max-width: 520px) {
-  .dd {
-    padding: 20px 14px 56px;
-  }
+.dd-paste-actions button[type='submit'] {
+  background: var(--dd-stamp);
+  border-color: var(--dd-stamp);
+  color: var(--dd-paper);
+}
 
-  .dd-card {
+@media (max-width: 720px) {
+  .dd-app {
+    --dd-gutter: 4.6rem;
     flex-direction: column;
   }
 
-  .dd-row-actions {
+  .dd-spine {
+    width: 100%;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
+    gap: 10px 16px;
+    min-height: 0;
+    padding: 10px 12px;
+    box-shadow: inset 0 -8px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .dd-spine-meetings {
+    flex: 1;
+  }
+
+  .dd-spine-meetings button {
+    padding: 4px 0;
+    border-bottom: 0;
+  }
+
+  .dd-stage {
+    padding: 0;
+  }
+
+  .dd-pad {
+    width: 100%;
+    min-height: calc(100vh - 52px);
+    box-shadow: none;
+  }
+
+  .dd-spread {
+    grid-template-columns: 1fr;
+  }
+
+  .dd-leaf {
+    display: none;
+  }
+
+  .dd-leaf.is-on {
+    display: block;
+  }
+
+  .dd-leaf-decided {
+    border-left: 0;
+  }
+
+  .dd-leaf-decided h2,
+  .dd-leaf-decided .dd-line,
+  .dd-leaf-decided .dd-quiet-line {
+    padding-left: calc(var(--dd-gutter) + 12px);
+  }
+
+  .dd-gutter-tight {
+    --dd-gutter: 4.5rem;
+  }
+}
+
+@media print {
+  body {
+    background: #fff !important;
+  }
+
+  .dd-app {
+    display: block;
+    min-height: 0;
+  }
+
+  .dd-spine,
+  .dd-tray,
+  .dd-banner,
+  .dd-tape,
+  .dd-stamp,
+  .dd-paste-wrap,
+  .dd-noprint {
+    display: none !important;
+  }
+
+  .dd-stage {
+    padding: 0;
+  }
+
+  .dd-pad {
+    width: auto;
+    min-height: 0;
+    box-shadow: none;
+  }
+
+  .dd-spread {
+    grid-template-columns: 1fr;
+  }
+
+  .dd-leaf {
+    display: block !important;
+  }
+
+  .dd-leaf-open {
+    order: -1;
   }
 }

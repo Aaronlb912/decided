@@ -1,7 +1,8 @@
 export const sampleLog = {
   id: 'log-oak-vine',
   title: 'Oak & Vine Florist',
-  note: 'What we called this month. Names are fake.',
+  note: 'Floor calls this month.',
+  meetingOn: '2026-09-16',
   decisions: [
     {
       id: 'd-hours',
@@ -10,6 +11,7 @@ export const sampleLog = {
       who: 'Lena Ortiz',
       stillOpen: false,
       owner: '',
+      thread: 'Floor huddle, 8 Sep',
       notes: 'Walk-ins after 4 wait until Monday. Tess Quinn already told the counter.',
     },
     {
@@ -19,6 +21,7 @@ export const sampleLog = {
       who: 'Lena Ortiz, Sam Reed',
       stillOpen: false,
       owner: '',
+      thread: 'Floor huddle, 8 Sep',
       notes: 'Sam has the standing order. Mail him at sam@oakandvine.example if a stem mix changes.',
     },
     {
@@ -28,6 +31,7 @@ export const sampleLog = {
       who: 'Priya Shah',
       stillOpen: false,
       owner: '',
+      thread: 'Floor huddle, 8 Sep',
       notes: 'Priya picks the stem mix. Do not leave last week\'s cards in the glass.',
     },
     {
@@ -37,6 +41,7 @@ export const sampleLog = {
       who: 'Tess Quinn',
       stillOpen: false,
       owner: '',
+      thread: 'Counter note, 14 Sep',
       notes: 'Counter can take the order for the next morning. Tell walk-ins before they pick a vase.',
     },
     {
@@ -46,8 +51,19 @@ export const sampleLog = {
       who: 'Sam Reed',
       stillOpen: true,
       owner: 'Sam Reed',
+      thread: 'Mail, Riverside admissions',
       notes:
         'Still open: Tuesday morning van hours. Mail from admissions@riverside-hospital.example. Do we have a driver, or do we pass?',
+    },
+    {
+      id: 'd-van',
+      what: 'Who drives the Tuesday hospital van if Sam is out?',
+      when: '2026-09-16',
+      who: 'Lena Ortiz',
+      stillOpen: true,
+      owner: 'Lena Ortiz',
+      thread: 'Floor huddle, 16 Sep',
+      notes: 'Need a backup before we sign the contract. Priya said she can learn the route.',
     },
   ],
 }

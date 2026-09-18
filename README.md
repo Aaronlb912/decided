@@ -18,6 +18,5 @@ npm start
 
 Open http://127.0.0.1:48531/
 
-The sample is Oak & Vine Florist. Names are fake. Work stays in
-this browser after a refresh. Reset sample on the list if you want
-Oak & Vine back.
+The sample is Oak & Vine Florist. Close an open call from the
+left page. Download JSON from Book on the spine.

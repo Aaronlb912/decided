@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react'
-import { normalizeDecision } from './decided-json.js'
+import { formatHeadingDate, normalizeDecision } from './decided-json.js'
 
-export function DecisionPage({ decision, mode, onSave, onCancel, onRemove }) {
+export function DecisionPage({
+  decision,
+  mode,
+  onSave,
+  onCancel,
+  onRemove,
+  onDuplicate,
+}) {
   const isNew = mode === 'new'
   const [what, setWhat] = useState(decision.what || '')
   const [when, setWhen] = useState(decision.when || '')
@@ -9,6 +16,8 @@ export function DecisionPage({ decision, mode, onSave, onCancel, onRemove }) {
   const [stillOpen, setStillOpen] = useState(Boolean(decision.stillOpen))
   const [owner, setOwner] = useState(decision.owner || '')
   const [notes, setNotes] = useState(decision.notes || '')
+  const [thread, setThread] = useState(decision.thread || '')
+  const [followUp, setFollowUp] = useState(decision.followUp || '')
   const [miss, setMiss] = useState('')
 
   useEffect(() => {
@@ -19,50 +28,49 @@ export function DecisionPage({ decision, mode, onSave, onCancel, onRemove }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [onCancel])
 
-  function built() {
-    if (!what.trim()) {
-      setMiss('Need what we decided.')
-      return null
-    }
-    setMiss('')
-    return normalizeDecision({
-      ...decision,
-      what,
-      when,
-      who,
-      stillOpen,
-      owner,
-      notes,
-    })
-  }
-
   function save(event) {
     event.preventDefault()
-    const next = built()
-    if (!next) return
-    onSave(next)
+    if (!what.trim()) {
+      setMiss('Need the call.')
+      return
+    }
+    setMiss('')
+    onSave(
+      normalizeDecision({
+        ...decision,
+        what,
+        when,
+        who,
+        stillOpen,
+        owner,
+        notes,
+        thread,
+        followUp,
+      }),
+    )
   }
 
   return (
-    <div className="dd dd-page">
-      <p className="dd-kicker">{isNew ? 'Add a decision' : 'Open decision'}</p>
-      <h1>{isNew ? 'New decision' : decision.what || 'Decision'}</h1>
-      <p className="dd-hint">
-        {isNew
-          ? 'What we called, when, who was in the room. Escape goes back without saving.'
-          : 'Change the call, then save. Escape goes back without saving.'}
-      </p>
+    <div className="dd-call">
+      <button type="button" className="dd-quiet dd-back dd-noprint" onClick={onCancel}>
+        Pad
+      </button>
+      <header className="dd-heading">
+        <h1>{isNew ? 'New call' : what.trim() || 'Call'}</h1>
+        <p className="dd-heading-date">{formatHeadingDate(when) || 'No date'}</p>
+      </header>
 
       {miss ? (
-        <p className="dd-miss" role="alert">
+        <p className="dd-banner dd-miss" role="alert">
           {miss}
         </p>
       ) : null}
 
-      <form className="dd-form" onSubmit={save}>
-        <label className="dd-field">
-          What we decided
-          <input
+      <form onSubmit={save}>
+        <label className={`dd-field${miss ? ' dd-field-miss' : ''}`}>
+          Call
+          <textarea
+            rows={3}
             value={what}
             onChange={(event) => setWhat(event.target.value)}
             autoFocus
@@ -78,42 +86,53 @@ export function DecisionPage({ decision, mode, onSave, onCancel, onRemove }) {
         </label>
         <label className="dd-field">
           Who
-          <input
-            value={who}
-            onChange={(event) => setWho(event.target.value)}
-            placeholder="Who made the call"
-          />
+          <input value={who} onChange={(event) => setWho(event.target.value)} />
         </label>
         <label className="dd-field dd-check">
-          <input
-            type="checkbox"
-            checked={stillOpen}
-            onChange={(event) => setStillOpen(event.target.checked)}
-          />
           Still open
+          <span>
+            <input
+              type="checkbox"
+              checked={stillOpen}
+              onChange={(event) => setStillOpen(event.target.checked)}
+            />
+          </span>
         </label>
+        {stillOpen ? (
+          <label className="dd-field">
+            Owner
+            <input value={owner} onChange={(event) => setOwner(event.target.value)} />
+          </label>
+        ) : null}
+        {stillOpen ? (
+          <label className="dd-field">
+            Follow up
+            <input
+              type="date"
+              value={followUp}
+              onChange={(event) => setFollowUp(event.target.value)}
+            />
+          </label>
+        ) : null}
         <label className="dd-field">
-          Owner
-          <input
-            value={owner}
-            onChange={(event) => setOwner(event.target.value)}
-            placeholder="Who still owns it if this is open"
-          />
+          From
+          <input value={thread} onChange={(event) => setThread(event.target.value)} />
         </label>
         <label className="dd-field">
           Notes
-          <textarea
-            rows={5}
-            value={notes}
-            onChange={(event) => setNotes(event.target.value)}
-          />
+          <textarea rows={4} value={notes} onChange={(event) => setNotes(event.target.value)} />
         </label>
-        <div className="dd-form-actions">
+        <div className="dd-call-actions">
           <button type="submit">Save</button>
-          <button type="button" className="dd-secondary" onClick={onCancel}>
+          <button type="button" className="dd-cancel" onClick={onCancel}>
             Cancel
           </button>
-          {!isNew ? (
+          {onDuplicate ? (
+            <button type="button" className="dd-quiet" onClick={onDuplicate}>
+              Duplicate
+            </button>
+          ) : null}
+          {!isNew && onRemove ? (
             <button type="button" className="dd-quiet" onClick={() => onRemove(decision.id)}>
               Remove
             </button>

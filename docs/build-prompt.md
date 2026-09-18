@@ -6,7 +6,7 @@ JSON in, JSON out. Drop `src/lib/` into a React app you already
 have.
 
 Prompt file (do not wait for a paste):
-`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\decided-prompt.md`
+`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\decided-rebuild-prompt.md`
 
 Continue later:
 `C:\Users\aaron\OneDrive\Documents\prompts\multi-session-build-prompt-react.md`
@@ -18,10 +18,11 @@ Local URL: http://127.0.0.1:48531/
 Repo folder: `C:\Users\aaron\Documents\decided`
 
 Pages:
-- Decision list: decided first, still-open next. Add by hand.
-  Paste a dump. Search. Reset sample.
+- Decision list: still-open first, decided next. Add by hand.
+  Paste a dump. Search. Filter. Load JSON. Start blank. Reset
+  sample. Rename the log. Print.
 - Decision page: what we decided, when, who, still open, owner,
-  notes. Save. Escape cancels.
+  notes, thread. Save. Escape cancels.
 
 Auth: none.
 
@@ -33,21 +34,33 @@ names. Email on `.example`.
 - [x] Session 1: scaffold, sample decisions plus one open item,
       add by hand, paste into candidate lines, JSON download,
       demo running.
-- [ ] Session 2: search, miss on a blank save, persist, empty
+- [x] Session 2: search, miss on a blank save, persist, empty
       state, close an open item.
-- [ ] Session 3: several threads or richer fields, CSS, old JSON
+- [x] Session 3: several threads or richer fields, CSS, old JSON
       still loads.
+- [x] D-A. Pad, not a dashboard.
+- [x] D-B. Reopen.
+- [x] Rebuild R-A. Kill the old chrome.
+- [x] Rebuild R-B. Spread + tray.
+- [ ] Rebuild R-C through R-J in `decided-rebuild-prompt.md`
+      before SHIPPED. Keep the notebook. Remake the app.
+      Draft-30 D-C through D-L are skipped (folded into the
+      rebuild).
 - [ ] Session ship: screenshots, demo video, README Demo, LinkedIn
       draft, SHIPPED.
 
 ## This session
 
-Session 2. Search, empty state, close an open item.
+R-A and R-B. Meeting-book spine, heading on the pad lines,
+tray (Open / Decided / Find / New / Paste). File ops in Book
+on the spine. Do not ship.
 
 ## Next session
 
-Session 3. Several threads or richer fields, CSS, old JSON
-still loads.
+R-C. Write a new open call on the next blank line. Open this
+repo. Read
+`C:\Users\aaron\OneDrive\Documents\prompts\other prompts\decided-rebuild-prompt.md`.
+Do not ship.
 
 ## Usefulness check
 
